@@ -1,14 +1,21 @@
 class Cloud extends MovableObject{
     y = 50
-    height = 150;
+    height = 350;
     width = 500;
     
     constructor(){
         super().loadImage('img_pollo_locco/img/5_background/layers/4_clouds/1.png');
 
-        this.x = 200 + Math.random() * 500;
-        this.width = 500;
+        this.x =  Math.random() * 500;
+        this.animate();
        
     } 
    
-}
+    // mit dieser function sorge ich dafür das es jede secunde ausgeführt wird und die Wolkenposition sich ändert !! 
+    animate(){
+       this.moveLeft();
+       
+    }
+
+   
+} 
