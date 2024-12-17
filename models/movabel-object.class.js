@@ -1,29 +1,73 @@
-class MovableObject{
+class MovableObject extends DrawbleObject{
   // cxt= steht meistens für „context“ und ist eine kurze, gebräuchliche Abkürzung.
-        x = 120;
-        y = 310;
-        img;
-        height= 150;
-        width= 100;
-        imageCache = {};
-        currentImage = 0;
         speed = 0.15;
         otherDirection = false;
         speedY = 0;
-        acceleration = 1;// Beschleunigung 
+        acceleration = 2.5;// Beschleunigung 
+        energy = 100;
+        lastHit = 0;
 
 
        applyGravity(){
-        setInterval(()=>{
-            this.y += this.speedY
+        setInterval(()=>{// wenn wir auf dem Boden sind !!
+          if(this.isAboveGround() || this.speedY > 0){
+            this.y -= this.speedY
             this.speedY -= this.acceleration;
+          }
         }, 1000 / 25);
+        
+       }
+
+       isAboveGround(){
+        return this.y < 210;
        }
 
         loadImage(path){
             this.img = new Image();//this.img = document.getElementById('image') <img= id"image">
             this.img.src = path;
         }
+
+        draw(ctx){
+              // und hier wird alles wieder rückgengig gemacht 
+        ctx.drawImage(this.img, this.x, this.y, this.width, this.height); 
+        }
+
+        drawFrame(ctx){
+          if (this instanceof Character || this instanceof Chicken){
+          // blaue Umrandung Refactoring
+        ctx.beginPath();
+        ctx.lineWidth = '5';
+        ctx.strokeStyle = 'blue';
+        ctx.rect(this.x,this.y,this.width,this.height);
+        ctx.stroke();
+        }
+      }
+    
+      isColling(mo){
+        return this.x + this.width > mo.x &&
+              this.y + this.height > mo.y &&
+              this.x < mo.x &&
+              this.y < mo.y + mo.height;
+      }
+
+      hit() {
+        this.energy -= 5;
+        if(this.energy < 0) {
+          this.energy = 0;
+        }else {
+            this.lastHit = new Date().getTime();
+        }
+      }
+      isHurt(){
+        let timepassed= new Date().getTime() - this.lastHit;// Differece in ms
+        timepassed = timepassed / 1000;//Difference in s
+        return timepassed < 0.5;
+      }
+
+      isDead(){
+        return this.energy == 0;
+      }
+     
 
         /**
          * 
@@ -41,21 +85,23 @@ class MovableObject{
         }
 
         playAnimation(images){
-        let i = this.currentImage % this.IMAGES_WALKING.length;// let i= 0 % 6; 0, Rest 0
+        let i = this.currentImage % images.length;// let i= 0 % 6; 0, Rest 0
         //% (Modulo) sorgt dafür, dass der Wert von i innerhalb des Bereichs von 0 bis zur Länge des Arrays IMAGES_WALKING - 1 bleibt. 
         // Dadurch wird verhindert, dass der Index außerhalb der verfügbaren Bilder liegt.
         let path = images[i];
         this.img =this.imageCache[path];
         this.currentImage ++;
       }
-         moveRight(){
-            console.log('Moving right');
-            
+        moveRight(){
+          this.x += this.speed; 
         }
 
         moveLeft(){
-          setInterval(()=>{
-            this.x -= 0.15;
-        },1000/ 60);// hiermit sage ich wie schnell es geschiet!!(fps)
+        this.x -= this.speed;
         }
+        
+        
+        jump(){
+          this.speedY = 30;
+       }
 }

@@ -6,17 +6,30 @@ class World {
     keyboard;
     camera_x = 0;
 
+    
     constructor(canvas, keyboard){
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
         this.draw();
         this.setWorld();
+        this.checkCollisions();
 
     }
 
     setWorld(){
         this.character.world = this;
+    }
+
+    checkCollisions(){
+        setInterval(()=>{
+            this.level.enemies.forEach((enemy)=>{
+                if(this.character.isColling(enemy) ) {
+                   this.character.hit();
+                    console.log('Collision with Character,energy', this.character.energy)
+                }
+            });
+        }, 200);
     }
 
 
@@ -52,18 +65,25 @@ class World {
 
     addToMap(mo) {
         if(mo.otherDirection){
-            this.ctx.save();// speichtern des Aktuellen Eistellungen vom context
+            this.flipImage(mo);
+        }
+        
+        mo.draw(this.ctx);
+        mo.drawFrame(this.ctx);
+    
+        if(mo.otherDirection){
+           this.flipImageBack(mo);
+        }
+    }
+    flipImage(mo){
+        this.ctx.save();// speichtern der Aktuellen Einstellungen vom context
             this.ctx.translate(mo.width,0);//die Methode der eingefügten Bilder wird verändert 
             this.ctx.scale(-1, 1);
             mo.x = mo.x * -1;
-            // weil wir die x achse durch translate verändet haben müssen wir es ins - schreiben.
-        }
-        
-        // und hier wird alels wieder rückgengig gemacht 
-        this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height); 
-        if(mo.otherDirection){
-            mo.x = mo.x * -1;
-            this.ctx.restore();
-        }
+            // weil wir die x achse durch translate verändet haben müssen wir es ins - schreiben
+    }
+    flipImageBack(mo){
+        mo.x = mo.x * -1;
+        this.ctx.restore();
     }
 }
