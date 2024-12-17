@@ -22,26 +22,17 @@ class MovableObject extends DrawbleObject{
         return this.y < 210;
        }
 
-        loadImage(path){
-            this.img = new Image();//this.img = document.getElementById('image') <img= id"image">
-            this.img.src = path;
-        }
+        // loadImage(path){
+        //     this.img = new Image();//this.img = document.getElementById('image') <img= id"image">
+        //     this.img.src = path;
+        // }
 
-        draw(ctx){
-              // und hier wird alles wieder rückgengig gemacht 
-        ctx.drawImage(this.img, this.x, this.y, this.width, this.height); 
-        }
+        // draw(ctx){
+        //       // und hier wird alles wieder rückgengig gemacht 
+        // ctx.drawImage(this.img, this.x, this.y, this.width, this.height); 
+        // }
 
-        drawFrame(ctx){
-          if (this instanceof Character || this instanceof Chicken){
-          // blaue Umrandung Refactoring
-        ctx.beginPath();
-        ctx.lineWidth = '5';
-        ctx.strokeStyle = 'blue';
-        ctx.rect(this.x,this.y,this.width,this.height);
-        ctx.stroke();
-        }
-      }
+        
     
       isColling(mo){
         return this.x + this.width > mo.x &&
@@ -67,24 +58,8 @@ class MovableObject extends DrawbleObject{
       isDead(){
         return this.energy == 0;
       }
-     
-
-        /**
-         * 
-         * @param {Array} arr - ['img/image1.png,'img/image2.png....]
-         * Der Kommentar hilft Entwicklern zu verstehen, welche Art von Daten die Funktion erwartet.
-         */
-
-        loadImages(arr){
-          arr.forEach((path) => {
-            let img = new Image();
-            img.src = path;
-            // img.style = 'transform: scaleX(-1)';
-            this.imageCache[path] = img;
-          }); 
-        }
-
-        playAnimation(images){
+      
+      playAnimation(images){
         let i = this.currentImage % images.length;// let i= 0 % 6; 0, Rest 0
         //% (Modulo) sorgt dafür, dass der Wert von i innerhalb des Bereichs von 0 bis zur Länge des Arrays IMAGES_WALKING - 1 bleibt. 
         // Dadurch wird verhindert, dass der Index außerhalb der verfügbaren Bilder liegt.
@@ -99,8 +74,7 @@ class MovableObject extends DrawbleObject{
         moveLeft(){
         this.x -= this.speed;
         }
-        
-        
+      
         jump(){
           this.speedY = 30;
        }

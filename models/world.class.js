@@ -5,6 +5,7 @@ class World {
     ctx;
     keyboard;
     camera_x = 0;
+    statusBar = new StatusBar();
 
     
     constructor(canvas, keyboard){
@@ -26,7 +27,7 @@ class World {
             this.level.enemies.forEach((enemy)=>{
                 if(this.character.isColling(enemy) ) {
                    this.character.hit();
-                    console.log('Collision with Character,energy', this.character.energy)
+                   this.statusBar.setPercentage(this.character.energy);
                 }
             });
         }, 200);
@@ -37,19 +38,22 @@ class World {
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);// mit dem CODE vermeide ich die doppelterzeugung der Objekte im Canvas 
         // die Rehinfolge der Objekte die eingefügt werden ist wichtig!!
-        
+
         // gesamter Context wird verschoben 
         this.ctx.translate(this.camera_x,0);
-
-
         this.addObjectsToMap(this.level.backgroundObject);
-        this.addToMap(this.character);
         this.addObjectsToMap(this.level.clouds);
+        this.addToMap(this.character);
         this.addObjectsToMap(this.level.enemies);
 
         this.ctx.translate(-this.camera_x, 0);
-     
-        // Draw() wird immer wieder aufgerufen 
+        //------Space for fixed bbjects------------
+        this.addToMap(this.statusBar);
+        this.ctx.translate(this.camera_x, 0);
+
+
+        this.ctx.translate(-this.camera_x, 0);
+
         let self = this;
         requestAnimationFrame(function() { 
             self.draw();

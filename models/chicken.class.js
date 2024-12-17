@@ -13,7 +13,7 @@ class Chicken extends MovableObject {// extends MovableObject Vererbung von !Mov
         super().loadImage('img_pollo_locco/img/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
         this.loadImages(this.IMAGES_WALKING);
         
-        this.x = 400 + Math.random() * 800;
+        this.x = 600 + Math.random() * 1800;
         this.speed = 0.15 + Math.random() * 0.8;
         this.animate();
     } 
@@ -25,7 +25,7 @@ class Chicken extends MovableObject {// extends MovableObject Vererbung von !Mov
     
       
 
-      setInterval(()=> {// Intercal für die bild Animation der Chicken 
+      setInterval(()=> {// Interval für die Bild Animation der Chicken 
         this.playAnimation(this.IMAGES_WALKING);
       
      }, 400);

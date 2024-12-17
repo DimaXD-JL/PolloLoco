@@ -52,6 +52,9 @@ class Character extends MovableObject{  // extends MovableObject Vererbung von !
         this.loadImages(this.IMAGES_HURT);
         this.applyGravity();
         this.animate();
+        
+       
+       
     } 
   
     animate(){
@@ -85,7 +88,7 @@ class Character extends MovableObject{  // extends MovableObject Vererbung von !
                 // this.speedY = 30;// Sprunghöhe 
             }
             this.world.camera_x = -this.x + 100;// hier sage ich der camera in welchen pixelradius mir der character angezeigt werden soll.   
-        },2500/60);
+        },2000/60);
 
         setInterval(()=> {
             if (this.isDead()){
@@ -94,11 +97,13 @@ class Character extends MovableObject{  // extends MovableObject Vererbung von !
                 this.playAnimation(this.IMAGES_HURT);  
             }else if(this.isAboveGround()){
                 this.playAnimation(this.IMAGES_JUMPING);  
+               
             } else{
 
-                if(this.world.keyboard.RIGHT ||this.world.keyboard.LEFT){
+                if(this.world.keyboard.RIGHT || this.world.keyboard.LEFT){
                 // Walk animation
-                this.playAnimation(this.IMAGES_WALKING);    
+                this.playAnimation(this.IMAGES_WALKING);  
+                 
 
             //**Langeform */
         // let i = this.currentImage % this.IMAGES_WALKING.length;// let i= 0 % 6; 0, Rest 0
@@ -109,7 +114,7 @@ class Character extends MovableObject{  // extends MovableObject Vererbung von !
         // this.currentImage ++;
                 }
             }   
-    }, 40);
+    }, 5000/60);
 
     }
    
