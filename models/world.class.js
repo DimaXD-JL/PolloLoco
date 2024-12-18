@@ -6,6 +6,10 @@ class World {
     keyboard;
     camera_x = 0;
     statusBar = new StatusBar();
+    statusBarBoss = new StatusEndboss();
+    statusBarCoin = new StatusCoin();
+    statusBarBottel = new StatusBottel();
+    throwableObjects = [];
 
     
     constructor(canvas, keyboard){
@@ -15,6 +19,7 @@ class World {
         this.draw();
         this.setWorld();
         this.checkCollisions();
+        this.run();
 
     }
 
@@ -22,16 +27,29 @@ class World {
         this.character.world = this;
     }
 
+    run() {
+        setInterval(() =>{
+            this.checkCollisions();
+            this.checkThrowObject();
+        }, 200);
+    }
+
+    checkThrowObject(){
+        if(this.keyboard.F){
+            let bottle = new ThrowableObject (this.character.x +50,this.character.y + 100);
+            this.throwableObjects.push(bottle);
+        }
+    }
+
     checkCollisions(){
-        setInterval(()=>{
             this.level.enemies.forEach((enemy)=>{
-                if(this.character.isColling(enemy) ) {
+                if(this.character.isCollding(enemy)) {
                    this.character.hit();
                    this.statusBar.setPercentage(this.character.energy);
                 }
             });
-        }, 200);
-    }
+        }
+    
 
 
     //draw wird immer weder aufgerufen 
@@ -45,10 +63,16 @@ class World {
         this.addObjectsToMap(this.level.clouds);
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.enemies);
+        this.addObjectsToMap(this.throwableObjects);
+      
 
         this.ctx.translate(-this.camera_x, 0);
         //------Space for fixed bbjects------------
         this.addToMap(this.statusBar);
+        this.addToMap(this.statusBarCoin);
+        this.addToMap(this.statusBarBottel);
+        this.addToMap(this.statusBarBoss);
+     
         this.ctx.translate(this.camera_x, 0);
 
 

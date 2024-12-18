@@ -17,7 +17,7 @@ percentage = 100;
     constructor(){
         super();
         this.loadImages(this.IMAGES_HEALTH);
-        this.x = 40;
+        this.x = 5;
         this.y = 0;
         this.width = 200;
         this.height = 70;

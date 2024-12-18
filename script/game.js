@@ -39,6 +39,9 @@ window.addEventListener("keydown", (e)=>{
     if(e.keyCode == 32){//Lehrtaste (Jump)
         keyboard.SPACE = true; 
     }
+    if(e.keyCode == 70){//Werfen
+        keyboard.F = true; 
+    }
 console.log(e);
 });
 
@@ -69,6 +72,9 @@ window.addEventListener("keyup", (e)=>{
     }
     if(e.keyCode == 32){//Lehrtaste (Jump)
         keyboard.SPACE = false; 
+    }
+    if(e.keyCode == 70){//Werfen
+        keyboard.F = false; 
     }
 console.log(e);
 });

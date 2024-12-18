@@ -19,26 +19,18 @@ class MovableObject extends DrawbleObject{
        }
 
        isAboveGround(){
+        if(this instanceof ThrowableObject){
+          return true;
+        } else{
         return this.y < 210;
        }
-
-        // loadImage(path){
-        //     this.img = new Image();//this.img = document.getElementById('image') <img= id"image">
-        //     this.img.src = path;
-        // }
-
-        // draw(ctx){
-        //       // und hier wird alles wieder rückgengig gemacht 
-        // ctx.drawImage(this.img, this.x, this.y, this.width, this.height); 
-        // }
-
-        
+      }
     
-      isColling(mo){
+      isCollding(mo){
         return this.x + this.width > mo.x &&
-              this.y + this.height > mo.y &&
-              this.x < mo.x &&
-              this.y < mo.y + mo.height;
+               this.y + this.height > mo.y &&
+               this.x < mo.x &&
+               this.y < mo.y + mo.height;
       }
 
       hit() {
