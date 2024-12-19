@@ -21,13 +21,20 @@ class ThrowableObject extends MovableObject{
     constructor(x,y){
         super().loadImage('img_pollo_locco/img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png');
         this.loadImages(this.IMAGES_ROTATION);
-        this.loadImages(this.IMAGES_SPLASH);
+        // this.loadImages(this.IMAGES_SPLASH);
         this.x = x
         this.y = y;
         this.trow();
+        this.animate();
         
     }
-
+    animate(){
+       
+        setInterval(()=> {// Interval für die Bild Animation der Chicken 
+          this.playAnimation(this.IMAGES_ROTATION);
+        
+       }, 400);
+    }
     trow(){
         this.spedY = 30;
         this.applyGravity();

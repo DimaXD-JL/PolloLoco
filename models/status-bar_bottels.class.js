@@ -15,7 +15,7 @@ class StatusBottel extends DrawbleObject{
 
         constructor(){
             super();
-            this.loadImages(this. IMAGES_BOTTELS);
+            this.loadImages(this.IMAGES_BOTTELS);
             this.x = 60;
             this.y = 50;
             this.width = 200;

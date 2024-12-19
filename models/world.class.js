@@ -11,6 +11,7 @@ class World {
     statusBarBottel = new StatusBottel();
     throwableObjects = [];
 
+
     
     constructor(canvas, keyboard){
         this.ctx = canvas.getContext('2d');
@@ -62,17 +63,16 @@ class World {
         this.addObjectsToMap(this.level.backgroundObject);
         this.addObjectsToMap(this.level.clouds);
         this.addToMap(this.character);
+        // this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.throwableObjects);
-      
-
+     
         this.ctx.translate(-this.camera_x, 0);
         //------Space for fixed bbjects------------
         this.addToMap(this.statusBar);
         this.addToMap(this.statusBarCoin);
         this.addToMap(this.statusBarBottel);
         this.addToMap(this.statusBarBoss);
-     
         this.ctx.translate(this.camera_x, 0);
 
 

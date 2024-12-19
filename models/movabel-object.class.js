@@ -8,28 +8,11 @@ class MovableObject extends DrawbleObject{
         lastHit = 0;
 
 
-       applyGravity(){
-        setInterval(()=>{// wenn wir auf dem Boden sind !!
-          if(this.isAboveGround() || this.speedY > 0){
-            this.y -= this.speedY
-            this.speedY -= this.acceleration;
-          }
-        }, 1000 / 25);
-        
-       }
-
-       isAboveGround(){
-        if(this instanceof ThrowableObject){
-          return true;
-        } else{
-        return this.y < 210;
-       }
-      }
     
       isCollding(mo){
         return this.x + this.width > mo.x &&
                this.y + this.height > mo.y &&
-               this.x < mo.x &&
+               this.x < mo.x + mo.width &&
                this.y < mo.y + mo.height;
       }
 
@@ -59,6 +42,25 @@ class MovableObject extends DrawbleObject{
         this.img =this.imageCache[path];
         this.currentImage ++;
       }
+
+      applyGravity(){
+        setInterval(()=>{// wenn wir auf dem Boden sind !!
+          if(this.isAboveGround() || this.speedY > 0){
+            this.y -= this.speedY
+            this.speedY -= this.acceleration;
+          }
+        }, 1000 / 25);
+        
+       }
+
+       isAboveGround(){
+        if(this instanceof ThrowableObject){
+          return true;
+        } else{
+        return this.y < 210;
+       }
+      }
+
         moveRight(){
           this.x += this.speed; 
         }

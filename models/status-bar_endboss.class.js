@@ -14,7 +14,7 @@ class StatusEndboss extends DrawbleObject{
     
 
         constructor(){
-            super();
+            super();  
             this.loadImages(this.IMAGES_ENDBOSS);
             this.x = 520;
             this.y = 10;

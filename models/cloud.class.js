@@ -15,7 +15,7 @@ class Cloud extends MovableObject{
        
     } 
    
-    // mit dieser function sorge ich dafür das es jede secunde ausgeführt wird und die Wolkenposition sich ändert !! 
+    // mit dieser function sorge ich dafür das es jede sekunde ausgeführt wird und die Wolkenposition sich ändert !! 
     animate(){
         setInterval(()=>{
             this.moveLeft();

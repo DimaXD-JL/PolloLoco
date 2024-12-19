@@ -7,7 +7,7 @@ function init() {
     world = new World(canvas,keyboard);
 
 
-    console.log('My Charector is', world.character);
+    // console.log('My Charector is', world.character);
     
 }
 
