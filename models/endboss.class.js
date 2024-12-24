@@ -2,6 +2,16 @@ class Endboss extends MovableObject {
     y = 120
     height = 350;
     width = 200;
+    energy = 100;
+
+
+
+    offset = {
+      x: 30,
+      y: 70,
+      width: 50,
+      height: 150,
+  }
 
     IMAGES_WALKING=[
         'img_pollo_locco/img/4_enemie_boss_chicken/2_alert/G5.png',
@@ -30,6 +40,8 @@ class Endboss extends MovableObject {
        }, 400);
   
       }
+
+      
   }
 
 

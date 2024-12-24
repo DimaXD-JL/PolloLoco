@@ -3,6 +3,17 @@ class Character extends MovableObject{  // extends MovableObject Vererbung von !
     height = 250;
     speed = 10;
 
+
+    offset = {
+        x: 30,
+        y: 120,
+        width: 50,
+        height: 150,
+    }
+
+    idleTimer; // Timer
+   
+
     IMAGES_WALKING =[
         'img_pollo_locco/img/2_character_pepe/2_walk/W-21.png',
         'img_pollo_locco/img/2_character_pepe/2_walk/W-22.png',
@@ -39,6 +50,19 @@ class Character extends MovableObject{  // extends MovableObject Vererbung von !
         'img_pollo_locco/img/2_character_pepe/4_hurt/H-43.png',
 
     ]
+    IMAGES_IDLE =[
+        'img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-11.png',
+        'img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-12.png',
+        'img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-13.png',
+        'img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-14.png',
+        'img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-15.png',
+        'img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-16.png',
+        'img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-17.png',
+        'img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-18.png',
+        'img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-19.png',
+        'img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-20.png',
+    
+    ]
 
     // currentImage = 0;
     world;
@@ -51,6 +75,7 @@ class Character extends MovableObject{  // extends MovableObject Vererbung von !
         this.loadImages(this.IMAGES_JUMPING);
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_HURT);
+        this.loadImages(this.IMAGES_IDLE);
         this.applyGravity();
         this.animate();
         
@@ -91,32 +116,38 @@ class Character extends MovableObject{  // extends MovableObject Vererbung von !
             this.world.camera_x = -this.x + 100;// hier sage ich der camera in welchen pixelradius mir der character angezeigt werden soll.   
         },2000/60);
 
-        setInterval(()=> {
-            if (this.isDead()){
-                this.playAnimation(this.IMAGES_DEAD);  
-            }else if(this.isHurt()){
-                this.playAnimation(this.IMAGES_HURT);  
-            }else if(this.isAboveGround()){
-                this.playAnimation(this.IMAGES_JUMPING);  
-               
-            } else{
-
-                if(this.world.keyboard.RIGHT || this.world.keyboard.LEFT){
-                // Walk animation
-                this.playAnimation(this.IMAGES_WALKING);  
-                 
-
-            //**Langeform */
-        // let i = this.currentImage % this.IMAGES_WALKING.length;// let i= 0 % 6; 0, Rest 0
-        // //% (Modulo) sorgt dafür, dass der Wert von i innerhalb des Bereichs von 0 bis zur Länge des Arrays IMAGES_WALKING - 1 bleibt. 
-        // // Dadurch wird verhindert, dass der Index außerhalb der verfügbaren Bilder liegt.
-        // let path = this.IMAGES_WALKING[i];
-        // this.img =this.imageCache[path];
-        // this.currentImage ++;
+        setInterval(() => {
+            if (this.isDead()) {
+                // Wenn die Figur tot ist, spiele die Todesanimation ab
+                this.playAnimation(this.IMAGES_DEAD);
+            } else if (this.isHurt()) {
+                // Wenn die Figur verletzt ist, spiele die Verletzungsanimation ab
+                this.playAnimation(this.IMAGES_HURT);
+            } else if (this.isAboveGround()) {
+                // Wenn die Figur springt, spiele die Sprunganimation ab
+                this.playAnimation(this.IMAGES_JUMPING);
+            } else {
+                if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+                    // Wenn die Figur läuft, spiele die Laufanimation ab
+                    this.playAnimation(this.IMAGES_WALKING);
+        
+                    // Lösche den idleTimer, wenn die Figur sich bewegt
+                    if (this.idleTimer) {
+                        clearTimeout(this.idleTimer);
+                        this.idleTimer = null;
+                    }
                 }
-            }   
+                // Überprüfen, ob der idleTimer gesetzt ist, wenn die Figur nicht läuft
+                if (!this.idleTimer) {
+                    this.idleTimer = setTimeout(() => {
+                        // Spiele die Idle-Animation ab, wenn die Figur nach 5 Sekunden nicht bewegt wird
+                        this.playAnimation(this.IMAGES_IDLE);
+                }, 5000); // Warten für 5000 Millisekunden (5 Sekunden), bevor die Funktion aufgerufen wird
+            } 
+            }  
     }, 5000/60);
 
     }
-   
+
+
 }

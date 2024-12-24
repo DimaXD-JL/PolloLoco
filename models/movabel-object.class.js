@@ -16,6 +16,13 @@ class MovableObject extends DrawbleObject{
                this.y < mo.y + mo.height;
       }
 
+      drawisColliding(mo) {
+        return this.x + this.offset.x + this.width - this.offset.width > mo.x + mo.offset.x &&
+            this.y + this.offset.y + this.height - this.offset.height > mo.y + mo.offset.y &&
+            this.x + this.offset.x < mo.x+ mo.offset.x  + mo.width - mo.offset.width &&
+            this.y + this.offset.y < mo.y + mo.offset.y + mo.height - mo.offset.height;
+    }
+
       hit() {
         this.energy -= 5;
         if(this.energy < 0) {
@@ -42,6 +49,7 @@ class MovableObject extends DrawbleObject{
         this.img =this.imageCache[path];
         this.currentImage ++;
       }
+  
 
       applyGravity(){
         setInterval(()=>{// wenn wir auf dem Boden sind !!

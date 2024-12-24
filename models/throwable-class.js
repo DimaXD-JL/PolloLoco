@@ -2,6 +2,13 @@ class ThrowableObject extends MovableObject{
     height = 60;
     width = 50;
 
+    // offset = {
+    //     x: 30,
+    //     y: 120,
+    //     width: 50,
+    //     height: 150,
+    // }
+
     IMAGES_ROTATION= [
         'img_pollo_locco/img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png',
         'img_pollo_locco/img/6_salsa_bottle/bottle_rotation/2_bottle_rotation.png',
@@ -21,26 +28,28 @@ class ThrowableObject extends MovableObject{
     constructor(x,y){
         super().loadImage('img_pollo_locco/img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png');
         this.loadImages(this.IMAGES_ROTATION);
-        // this.loadImages(this.IMAGES_SPLASH);
+        this.loadImages(this.IMAGES_SPLASH);
         this.x = x
         this.y = y;
         this.trow();
-        this.animate();
+        this.animateRotation()
         
     }
-    animate(){
-       
-        setInterval(()=> {// Interval für die Bild Animation der Chicken 
-          this.playAnimation(this.IMAGES_ROTATION);
-        
-       }, 400);
+    animateRotation() {
+        this.loadImages(this.IMAGES_ROTATION);
+        setInterval(() => {
+            this.playAnimation(this.IMAGES_ROTATION);
+        }, 100);
     }
+   // Flaschenwurf
     trow(){
-        this.spedY = 30;
+        this.speedY = 20;
         this.applyGravity();
         setInterval(()=> {
-            this.x += 12;
-        }, 40);
+            this.x += 10;
+        }, 20);
 
     }
+  
+    
 }

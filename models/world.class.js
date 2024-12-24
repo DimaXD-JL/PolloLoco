@@ -8,8 +8,12 @@ class World {
     statusBar = new StatusBar();
     statusBarBoss = new StatusEndboss();
     statusBarCoin = new StatusCoin();
-    statusBarBottel = new StatusBottel();
+    statusBarBottle = new StatusBottle();
     throwableObjects = [];
+    bottleCounter = 0;
+    coinCounter = 0;
+    coins = [];
+   
 
 
     
@@ -19,7 +23,9 @@ class World {
         this.keyboard = keyboard;
         this.draw();
         this.setWorld();
-        this.checkCollisions();
+        // this.checkEnemyCollisions();
+        // this.checkCoinCollisions();
+        // this.checkBottleCollisions();
         this.run();
 
     }
@@ -30,27 +36,65 @@ class World {
 
     run() {
         setInterval(() =>{
-            this.checkCollisions();
+            this.checkEnemyCollisions();
             this.checkThrowObject();
-        }, 200);
+            this.checkCoinCollisions();
+            this.checkBottleCollisions();
+        }, 250);
     }
 
-    checkThrowObject(){
-        if(this.keyboard.F){
-            let bottle = new ThrowableObject (this.character.x +50,this.character.y + 100);
-            this.throwableObjects.push(bottle);
+    // Funktion zum Werfen von Flaschen
+    checkThrowObject() {
+    if (this.keyboard.F && this.bottleCounter > 0) { // Nur werfen, wenn mindestens eine Flasche eingesammelt wurde
+        let bottle = new ThrowableObject(this.character.x + 50, this.character.y + 100);
+        this.throwableObjects.push(bottle);
+        this.bottleCounter--; // Zähler für Flaschen reduzieren
+        this.updateBottleStatusBar(); // Statusleiste aktualisieren
         }
     }
 
-    checkCollisions(){
-            this.level.enemies.forEach((enemy)=>{
-                if(this.character.isCollding(enemy)) {
-                   this.character.hit();
-                   this.statusBar.setPercentage(this.character.energy);
+    checkEnemyCollisions() {
+        // Kollision mit Gegnern
+        this.level.enemies.forEach((enemy) => {
+            if (this.character.isCollding(enemy)) {
+                this.character.hit();
+                this.statusBar.setPercentage(this.character.energy);
+            }
+        });
+    }
+
+    checkCoinCollisions() {
+        // Kollision mit Coins
+        this.level.coins.forEach((coin, index) => {
+            if (this.character.drawisColliding(coin)) {
+                this.coinCounter++; // Zähler erhöhen
+                this.level.coins.splice(index, 1); // Coin aus Array entfernen
+                this.updateCoinStatusBar(); // Statusleiste aktualisieren
+            }
+        });
+    }
+        updateCoinStatusBar() {
+            let percentage = Math.min(this.coinCounter * 10, 100); // Beispiel: Pro Coin +10%
+            this.statusBarCoin.setPercentage(percentage);
+        }
+    
+ checkBottleCollisions() {
+            // Kollision mit Flaschen
+            this.level.bottles.forEach((bottle, index) => {
+                if (this.character.drawisColliding(bottle)) {
+                    this.bottleCounter++;  // Zähler erhöhen
+                    this.level.bottles.splice(index, 1); // Flaschen aus Array entfernen
+                    this.updateBottleStatusBar(); // Statusleiste aktualisieren
                 }
             });
         }
-    
+         // Aktualisierung der Statusleiste für Flaschen
+        updateBottleStatusBar() {
+            let percentage = Math.min(this.bottleCounter * 10, 100); // Beispiel: Pro Flasche +10%
+            this.statusBarBottle.setPercentage(percentage);
+        }
+
+
 
 
     //draw wird immer weder aufgerufen 
@@ -62,8 +106,10 @@ class World {
         this.ctx.translate(this.camera_x,0);
         this.addObjectsToMap(this.level.backgroundObject);
         this.addObjectsToMap(this.level.clouds);
+    
+        this.addObjectsToMap(this.level.coins);
+        this.addObjectsToMap(this.level.bottles);
         this.addToMap(this.character);
-        // this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.throwableObjects);
      
@@ -71,7 +117,7 @@ class World {
         //------Space for fixed bbjects------------
         this.addToMap(this.statusBar);
         this.addToMap(this.statusBarCoin);
-        this.addToMap(this.statusBarBottel);
+        this.addToMap(this.statusBarBottle);
         this.addToMap(this.statusBarBoss);
         this.ctx.translate(this.camera_x, 0);
 
@@ -95,9 +141,9 @@ class World {
         if(mo.otherDirection){
             this.flipImage(mo);
         }
-        
         mo.draw(this.ctx);
         mo.drawFrame(this.ctx);
+        mo.drawOffsetFrame(this.ctx)
     
         if(mo.otherDirection){
            this.flipImageBack(mo);

@@ -7,6 +7,13 @@ class DrawbleObject {
     height= 150;
     width= 100;
 
+//     offset = {
+//       x: 0,
+//       y: 0,
+//       width: 0,
+//       height: 0,
+//   }
+
 
 
 
@@ -20,16 +27,28 @@ class DrawbleObject {
     ctx.drawImage(this.img, this.x, this.y, this.width, this.height); 
     }
 
-    drawFrame(ctx){
-        if (this instanceof Character || this instanceof Chicken){
-        // blaue Umrandung Refactoring
-      ctx.beginPath();
-      ctx.lineWidth = '5';
-      ctx.strokeStyle = 'blue';
-      ctx.rect(this.x,this.y,this.width,this.height);
-      ctx.stroke();
+    drawFrame(ctx) {
+      if (this instanceof Chicken || this instanceof Character ||this instanceof SmallChicken ) {
+          ctx.beginPath();
+          ctx.lineWidth = '5';
+          ctx.strokeStyle = 'blue';
+          ctx.rect(this.x, this.y, this.width, this.height);
+          ctx.stroke();
       }
-    }
+  }
+
+  drawOffsetFrame(ctx) {
+      if (this instanceof Character || this instanceof Coin || this instanceof Bottle || this instanceof Endboss) {
+          ctx.beginPath();
+          ctx.lineWidth = '3';
+          ctx.strokeStyle = 'red';
+          ctx.rect(this.x + this.offset.x, 
+              this.y + this.offset.y, 
+              this.width - this.offset.width, 
+              this.height - this.offset.height);
+          ctx.stroke();
+      }
+  }
      /**
          * 
          * @param {Array} arr - ['img/image1.png,'img/image2.png....]

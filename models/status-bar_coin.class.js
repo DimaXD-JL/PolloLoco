@@ -10,7 +10,7 @@ class StatusCoin extends DrawbleObject{
         'img_pollo_locco/img/7_statusbars/1_statusbar/1_statusbar_coin/green/100.png'
     ];
     
-    percentage = 100;
+   //  percentage = 0;
     
 
         constructor(){
@@ -20,7 +20,7 @@ class StatusCoin extends DrawbleObject{
             this.y = 30;
             this.width = 200;
             this.height = 60;
-            this.setPercentage(70);
+            this.setPercentage(0);
         }
         setPercentage(percentage){
             this.percentage = percentage;
@@ -44,5 +44,6 @@ class StatusCoin extends DrawbleObject{
                return 0; 
             }
          }
-       
+      
     }
+   

@@ -1,7 +1,7 @@
 class Chicken extends MovableObject {// extends MovableObject Vererbung von !MovableObject!
-  y = 380
-  height = 80;
-  width = 60;
+  y = 360;
+  height = 90;
+  width = 70;
   IMAGES_WALKING=[
     'img_pollo_locco/img/3_enemies_chicken/chicken_normal/1_walk/1_w.png',
     'img_pollo_locco/img/3_enemies_chicken/chicken_normal/1_walk/2_w.png',
@@ -19,18 +19,18 @@ class Chicken extends MovableObject {// extends MovableObject Vererbung von !Mov
     } 
 
     animate(){
+      
       setInterval(()=>{
         this.moveLeft();
     },1000/ 60);// hiermit sage ich wie schnell es geschiet!!(fps)
     
-      
-
       setInterval(()=> {// Interval für die Bild Animation der Chicken 
         this.playAnimation(this.IMAGES_WALKING);
       
      }, 400);
 
     }
+    
     hit() {
       this.energy -= 100;
       if (this.energy < 0) {
