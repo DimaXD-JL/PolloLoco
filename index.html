@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="de" translate="no">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
     <title>El Pollo Loco</title>
-    
+
     <script src="./models/drawable-objekt.class.js"></script>
     <script src="./models/movabel-object.class.js"></script>
     <script src="./models/character.class.js"></script>
@@ -26,25 +26,24 @@
     <script src="./models/endboss.class.js"></script>
     <script src="./levels/level1.js"></script>
     <script src="./script/game.js"></script>
-   
-</head>
-<body onload="init()">
+  </head>
+  <body onload="init()">
     <video autoplay muted loop id="myVideo">
-        <source src="./img_pollo_locco/mp4/310-135920767_small.mp4" type="video/mp4">
-      </video>
-    
-        <h1>El Pollo Loco</h1> 
-        <main class="gameCenter">    
-        <button class="startButton">Start</button>
-        
-        <canvas id="canvas" width="720" height="480">
-        </canvas>
-       <div class="boxButton">
+      <source
+        src="./img_pollo_locco/mp4/310-135920767_small.mp4"
+        type="video/mp4"
+      />
+    </video>
+
+    <h1>El Pollo Loco</h1>
+    <main class="gameCenter">
+      <button class="startButton">Start</button>
+
+      <canvas id="canvas" width="720" height="480"> </canvas>
+      <div class="boxButton">
         <button class="infoButton">?</button>
         <button class="screenButton">Fullscreen</button>
-    </div>
-   </main> 
-
-
-</body>
+      </div>
+    </main>
+  </body>
 </html>
