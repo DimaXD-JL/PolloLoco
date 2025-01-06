@@ -3,6 +3,14 @@ class SmallChicken extends MovableObject {
   y = 400;
   height = 50;
   width = 40;
+  energy = 100;
+
+  offset = {
+    x: 0,
+    y: 0,
+    width: 0,
+    height: 0,
+  };
 
   IMAGES_WALKING = [
     "img_pollo_locco/img/3_enemies_chicken/chicken_small/1_walk/1_w.png",
@@ -26,12 +34,14 @@ class SmallChicken extends MovableObject {
 
   animate() {
     setInterval(() => {
-      this.moveLeft();
-    }, 1000 / 60); // hiermit sage ich wie schnell es geschiet!!(fps)
-
+      if (this.energy > 0) {
+        this.moveLeft();
+      }
+    }, 1000 / 60);
     setInterval(() => {
-      // Intercal für die bild Animation der Chicken
-      this.playAnimation(this.IMAGES_WALKING);
+      if (this.energy > 0) {
+        this.playAnimation(this.IMAGES_WALKING);
+      }
     }, 400);
   }
   hit() {

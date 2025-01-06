@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de" translate="no">
+<html lang="" translate="no">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -27,22 +27,51 @@
     <script src="./levels/level1.js"></script>
     <script src="./script/game.js"></script>
   </head>
-  <body onload="init()">
-    <video autoplay muted loop id="myVideo">
-      <source
-        src="./img_pollo_locco/mp4/310-135920767_small.mp4"
-        type="video/mp4"
-      />
-    </video>
-
+  <body>
     <h1>El Pollo Loco</h1>
     <main class="gameCenter">
-      <button class="startButton">Start</button>
-
       <canvas id="canvas" width="720" height="480"> </canvas>
+
+      <div id="startGame"></div>
+      <button id="startButton" onclick="startGame()">Start</button>
+
       <div class="boxButton">
-        <button class="infoButton">?</button>
-        <button class="screenButton">Fullscreen</button>
+        <div id="infoButton" class="infoButton" onclick="showgoodToKnow()">
+          <img src="img_pollo_locco/icon/menu.png" alt="" />
+        </div>
+        <div id="soundButton" class="soundButton" onclick="">
+          <img src="img_pollo_locco/icon/sound_on.png" alt="" />
+        </div>
+      </div>
+      <div id="goodToKnow" class="goodToKnow" onclick="closegoodToKnow()">
+        <div class="goodToKnowContent">
+          <h3>Willkommen bei El Pollo Loco</h3>
+          <h4>Tastenerklärung:</h4>
+          <p>Links laufen: <b>A</b> oder <b>←</b></p>
+          <p>Rechts laufen: <b>D</b> oder <b>→</b></p>
+          <p>Springen mit: <b>W</b> oder <b>↑</b> oder <b>Leertaste</b></p>
+          <p>Angriff mit: <b>F</b></p>
+          <h4>Story:</h4>
+          <p>
+            Du bist ein unerschrockener Abenteurer, bekannt in der mexikanischen
+            Wüste als El Valiente, der Tapfere. Dein Ziel? Die Legende zu
+            erfüllen und die gefürchteten Hühner des Untergangs zu besiegen –
+            gigantische, monströse Kreaturen, die die Wüste terrorisieren. Doch
+            du bist nicht allein: Dein treuer Begleiter, eine Flasche feuriger
+            Salsa, ist deine stärkste Waffe. Nur mit ihrer scharfen Macht kannst
+            du die größten dieser Biester bezwingen! Die kleineren und
+            mittelgroßen Hühner hingegen kannst du mit deinem Mut und einem gut
+            gezielten Sprung überwältigen. Doch Vorsicht! Salsa ist in dieser
+            glühenden Wüste so selten wie ein Regentropfen. Wäge klug ab, wann
+            du sie einsetzt, denn der Weg zum größten Huhn – dem Gallo Supremo –
+            ist lang und voller Gefahren. Sammle unterwegs so viel Salsa wie
+            möglich und halte deine Augen offen für geheime Pfade und verborgene
+            Vorräte. Die Zeit ist gekommen. Die Wüste ruft, und die Hühner der
+            Apokalypse warten. Wirst du der Held sein, der das Gleichgewicht in
+            die Wüste zurückbringt? Pack deinen Mut und die Salsa ein – es ist
+            Zeit, Geschichte zu schreiben!
+          </p>
+        </div>
       </div>
     </main>
   </body>

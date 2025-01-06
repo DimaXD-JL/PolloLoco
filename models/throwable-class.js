@@ -2,12 +2,12 @@ class ThrowableObject extends MovableObject {
   height = 60;
   width = 50;
 
-  // offset = {
-  //     x: 30,
-  //     y: 120,
-  //     width: 50,
-  //     height: 150,
-  // }
+  offset = {
+    x: 30,
+    y: 70,
+    width: 50,
+    height: 150,
+  };
 
   IMAGES_ROTATION = [
     "img_pollo_locco/img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png",
@@ -23,7 +23,7 @@ class ThrowableObject extends MovableObject {
     ".img_pollo_locco/img/6_salsa_bottle/bottle_rotation/bottle_splash/5_bottle_splash.png",
     ".img_pollo_locco/img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png",
   ];
-
+  trow_sound = new Audio("audio/jump-sound.mp3");
   constructor(x, y) {
     super().loadImage(
       "img_pollo_locco/img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png"
@@ -39,7 +39,7 @@ class ThrowableObject extends MovableObject {
     this.loadImages(this.IMAGES_ROTATION);
     setInterval(() => {
       this.playAnimation(this.IMAGES_ROTATION);
-    }, 100);
+    }, 80);
   }
   // Flaschenwurf
   trow() {

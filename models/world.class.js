@@ -14,15 +14,16 @@ class World {
   coinCounter = 0;
   coins = [];
 
+  bottles_sound = new Audio("audio/bottles.mp3");
+  coin_sound = new Audio("audio/coin.mp3");
+  chicken_sound = new Audio("audio/chicken-hurt-Dead.mp3");
+
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
     this.keyboard = keyboard;
     this.draw();
     this.setWorld();
-    // this.checkEnemyCollisions();
-    // this.checkCoinCollisions();
-    // this.checkBottleCollisions();
     this.run();
   }
 
@@ -36,7 +37,10 @@ class World {
       this.checkThrowObject();
       this.checkCoinCollisions();
       this.checkBottleCollisions();
-    }, 250);
+    }, 80);
+    setInterval(() => {
+      this.checkThrowableObjectCollisions();
+    }, 10);
   }
 
   // Funktion zum Werfen von Flaschen
@@ -49,17 +53,44 @@ class World {
       );
       this.throwableObjects.push(bottle);
       this.bottleCounter--; // Zähler für Flaschen reduzieren
-      this.updateBottleStatusBar(); // Statusleiste aktualisieren
+      this.updateBottleStatusBar(); // Statusleiste aktualisiere
+      this.bottles_sound.play();
+      this.bottles_sound.volume = 0.4;
     }
+  }
+
+  checkThrowableObjectCollisions() {
+    // Prüfe Kollisionen zwischen geworfenen Objekten und Gegnern
+    this.throwableObjects.forEach((throwableObject) => {
+      this.level.enemies.forEach((enemy, index) => {
+        if (throwableObject.drawisColliding(enemy)) {
+          // Gegner trifft, spezifisch für Chicken oder SmallChicken
+          if (
+            enemy instanceof Chicken ||
+            enemy instanceof SmallChicken ||
+            enemy instanceof Endboss
+          ) {
+            // enemy.hit(); // Gegner als getroffen markieren (falls gewünscht)
+            this.level.enemies.splice(index, 1); // Entferne Gegner aus der Liste
+            this.throwableObjects.splice(
+              this.throwableObjects.indexOf(throwableObject),
+              1
+            ); // Entferne die Flasche nach Kollision
+          }
+        }
+      });
+    });
   }
 
   checkEnemyCollisions() {
     // Kollision mit Gegnern
     this.level.enemies.forEach((enemy, index) => {
-      if (this.character.isCollding(enemy)) {
+      if (this.character.drawisColliding(enemy)) {
         if (this.character.isAboveGround() && !this.character.speedY <= 0) {
           if (enemy instanceof Chicken || enemy instanceof SmallChicken) {
             this.level.enemies.splice(index, 1);
+            this.chicken_sound.play();
+            this.chicken_sound.volume = 0.1;
           }
         } else {
           this.character.hit();
@@ -76,6 +107,8 @@ class World {
         this.coinCounter++; // Zähler erhöhen
         this.level.coins.splice(index, 1); // Coin aus Array entfernen
         this.updateCoinStatusBar(); // Statusleiste aktualisieren
+        this.coin_sound.play();
+        this.coin_sound.volume = 0.4;
       }
     });
   }
@@ -91,6 +124,8 @@ class World {
         this.bottleCounter++; // Zähler erhöhen
         this.level.bottles.splice(index, 1); // Flaschen aus Array entfernen
         this.updateBottleStatusBar(); // Statusleiste aktualisieren
+        this.bottles_sound.play();
+        this.bottles_sound.volume = 0.4;
       }
     });
   }
@@ -107,23 +142,22 @@ class World {
 
     // gesamter Context wird verschoben
     this.ctx.translate(this.camera_x, 0);
-    this.addObjectsToMap(this.level.backgroundObject);
+    this.addObjectsToMap(this.level.backgroundObjects);
     this.addObjectsToMap(this.level.clouds);
 
-    this.addObjectsToMap(this.level.coins);
-    this.addObjectsToMap(this.level.bottles);
-    this.addToMap(this.character);
-    this.addObjectsToMap(this.level.enemies);
-    this.addObjectsToMap(this.throwableObjects);
-
     this.ctx.translate(-this.camera_x, 0);
-    //------Space for fixed bbjects------------
+    //------Space for fixed objects------------
     this.addToMap(this.statusBar);
     this.addToMap(this.statusBarCoin);
     this.addToMap(this.statusBarBottle);
     this.addToMap(this.statusBarBoss);
     this.ctx.translate(this.camera_x, 0);
 
+    this.addObjectsToMap(this.level.coins);
+    this.addObjectsToMap(this.level.bottles);
+    this.addObjectsToMap(this.level.enemies);
+    this.addToMap(this.character);
+    this.addObjectsToMap(this.throwableObjects);
     this.ctx.translate(-this.camera_x, 0);
 
     let self = this;

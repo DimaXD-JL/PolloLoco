@@ -75,7 +75,9 @@ class Character extends MovableObject {
 
   // currentImage = 0;
   world;
-  wlking_sound = new Audio("audio/walking-charactor.mp3");
+  walkingSound = new Audio("audio/walking-charactor.mp3");
+  jumpSound = new Audio("audio/jump-sound.mp3");
+  longIdleSound = new Audio("audio/longidle.mp3");
 
   constructor() {
     // sobald der Character erstellt wird soll er folgendes ausführen!!
@@ -92,19 +94,21 @@ class Character extends MovableObject {
 
   animate() {
     setInterval(() => {
-      this.wlking_sound.pause();
+      this.walkingSound.pause();
       // Bewegung nach rechts
       if (this.world.keyboard.RIGHT && this.x < 2200) {
         this.moveRight();
         this.otherDirection = false;
-        this.wlking_sound.play();
+        this.walkingSound.play();
+        this.walkingSound.volume = 0.4;
         this.resetTimers(); // Timer zurücksetzen
       }
 
       // Bewegung nach links
       if (this.world.keyboard.LEFT && this.x > -100) {
         this.moveLeft();
-        this.wlking_sound.play();
+        this.walkingSound.play();
+        this.walkingSound.volume = 0.4;
         this.otherDirection = true;
         this.resetTimers();
       }
@@ -116,6 +120,7 @@ class Character extends MovableObject {
       ) {
         this.jump();
         this.resetTimers();
+        this.jumpSound.play();
       }
 
       // Kamera-Position aktualisieren
@@ -147,6 +152,7 @@ class Character extends MovableObject {
     if (this.longIdleTimer) {
       clearTimeout(this.longIdleTimer);
       this.longIdleTimer = null;
+      this.longIdleSound.pause();
     }
   }
 
@@ -159,6 +165,8 @@ class Character extends MovableObject {
         if (!this.longIdleTimer) {
           this.longIdleTimer = setTimeout(() => {
             this.playAnimation(this.IMAGES_LONGIDLE);
+            this.longIdleSound.play();
+            this.longIdleSound.volume = 0.1;
           }, 3000); // Nach weiteren 3 Sekunden
         }
       }, 2000); // Nach 2 Sekunden Inaktivität
