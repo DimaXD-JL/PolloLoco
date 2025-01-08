@@ -4,12 +4,19 @@ let keyboard = new Keyboard();
 game_sound = new Audio("audio/world-sound.mp3");
 
 function startGame() {
-  document.getElementById("startGame").classList.add("d-none");
-  document.getElementById("startButton").classList.add("d-none");
+  const elementsToHide = ["gameOver", "startButton", "startGame"];
+  elementsToHide.forEach((id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.classList.add("d-none"); // Blendet das Element aus
+    }
+  });
 
+  // Spiel initialisieren
   initLevel1();
-  canvas = document.getElementById("canvas");
-  world = new World(canvas, keyboard);
+  world = new World(document.getElementById("canvas"), keyboard);
+
+  // Spielsound starten
   this.game_sound.play();
   this.game_sound.volume = 0.1;
 }

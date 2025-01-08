@@ -65,18 +65,21 @@ class World {
       this.level.enemies.forEach((enemy, index) => {
         if (throwableObject.drawisColliding(enemy)) {
           // Gegner trifft, spezifisch für Chicken oder SmallChicken
-          if (
-            enemy instanceof Chicken ||
-            enemy instanceof SmallChicken ||
-            enemy instanceof Endboss
-          ) {
-            // enemy.hit(); // Gegner als getroffen markieren (falls gewünscht)
-            this.level.enemies.splice(index, 1); // Entferne Gegner aus der Liste
-            this.throwableObjects.splice(
-              this.throwableObjects.indexOf(throwableObject),
-              1
-            ); // Entferne die Flasche nach Kollision
+          if (enemy instanceof Chicken || enemy instanceof SmallChicken) {
+            enemy.hit(); // Gegner als getroffen markieren
+            this.level.enemies.splice(index, 1); // Entferne Chicken aus der Liste
+          } else if (enemy instanceof Endboss) {
+            enemy.hit(); // Reduziere die Trefferpunkte des Endbosses
+            if (enemy.isDead()) {
+              // Überprüfe, ob der Endboss besiegt ist
+              this.level.enemies.splice(index, 1); // Entferne Endboss, wenn besiegt
+            }
           }
+          // Entferne das geworfene Objekt nach der Kollision
+          this.throwableObjects.splice(
+            this.throwableObjects.indexOf(throwableObject),
+            1
+          );
         }
       });
     });

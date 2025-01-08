@@ -23,7 +23,7 @@ class DrawbleObject {
       ctx.lineWidth = "5";
       ctx.strokeStyle = "blue";
       ctx.rect(this.x, this.y, this.width, this.height);
-      ctx.stroke();
+      // ctx.stroke();
     }
   }
 
@@ -32,6 +32,8 @@ class DrawbleObject {
       this instanceof Character ||
       this instanceof Coin ||
       this instanceof Bottle ||
+      this instanceof Chicken ||
+      this instanceof SmallChicken ||
       this instanceof Endboss
     ) {
       ctx.beginPath();
@@ -43,7 +45,7 @@ class DrawbleObject {
         this.width - this.offset.width,
         this.height - this.offset.height
       );
-      ctx.stroke();
+      // ctx.stroke();
     }
   }
   /**

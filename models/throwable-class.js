@@ -3,10 +3,10 @@ class ThrowableObject extends MovableObject {
   width = 50;
 
   offset = {
-    x: 30,
-    y: 70,
-    width: 50,
-    height: 150,
+    x: 0,
+    y: 0,
+    width: 0,
+    height: 0,
   };
 
   IMAGES_ROTATION = [

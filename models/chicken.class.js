@@ -37,13 +37,13 @@ class Chicken extends MovableObject {
       }
     }, 1000 / 60); // hiermit sage ich wie schnell es geschiet!!(fps)
 
-    setInterval(() => {
-      if (this.energy > 0) {
-        this.playAnimation(this.IMAGES_WALKING); // Interval für die Bild Animation der Chicken
-      } else if (this.isDead()) {
-        this.playAnimation(this.IMAGES_DEAD);
-      }
-    }, 400);
+    // setInterval(() => {
+    //   if (this.energy > 0) {
+    //     this.playAnimation(this.IMAGES_WALKING); // Interval für die Bild Animation der Chicken
+    //   } else if (this.isDead()) {
+    //     this.playAnimation(this.IMAGES_DEAD);
+    //   }
+    // }, 400);
   }
 
   hit() {

@@ -90,6 +90,7 @@ class Character extends MovableObject {
     this.loadImages(this.IMAGES_LONGIDLE);
     this.applyGravity();
     this.animate();
+    this.isDead();
   }
 
   animate() {
@@ -130,7 +131,7 @@ class Character extends MovableObject {
     // Animationen aktualisieren
     setInterval(() => {
       if (this.isDead()) {
-        this.playAnimation(this.IMAGES_DEAD);
+        this.characterisDead();
       } else if (this.isHurt()) {
         this.playAnimation(this.IMAGES_HURT);
       } else if (this.isAboveGround()) {
@@ -143,6 +144,28 @@ class Character extends MovableObject {
     }, 3000 / 60); // 60 FPS
   }
 
+  characterisDead() {
+    this.playAnimation(this.IMAGES_DEAD); // Animation abspielen
+
+    setTimeout(() => {
+      let gameOverElement = document.getElementById("gameOver");
+      let startButtonElement = document.getElementById("startButton");
+
+      if (gameOverElement) {
+        gameOverElement.classList.remove("d-none");
+        gameOverElement.classList.add("d-flex"); // Falls "d-flex" hinzugefügt werden soll
+      }
+
+      // Alle Intervalle sicher löschen
+      for (let i = 1; i < 9999; i++) window.clearInterval(i);
+
+      setTimeout(() => {
+        if (startButtonElement) {
+          startButtonElement.classList.remove("d-none");
+        }
+      }, 2000);
+    }, 1500);
+  }
   // Timer zurücksetzen
   resetTimers() {
     if (this.idleTimer) {
