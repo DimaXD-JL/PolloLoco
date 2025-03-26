@@ -36,11 +36,8 @@
       <button id="startButton" onclick="startGame()">Start</button>
       <div id="gameOver" class="overlay d-none"></div>
       <div class="boxButton">
-        <div id="infoButton" class="infoButton" onclick="showgoodToKnow()">
+        <div id="infoButton" class="infoButton" onclick="toggleInfoOverlay()">
           <img src="img_pollo_locco/icon/menu.png" alt="" />
-        </div>
-        <div id="soundButton" class="soundButton" onclick="">
-          <img src="img_pollo_locco/icon/sound_on.png" alt="" />
         </div>
       </div>
       <div id="goodToKnow" class="goodToKnow" onclick="closegoodToKnow()">
@@ -72,6 +69,16 @@
             Zeit, Geschichte zu schreiben!
           </p>
         </div>
+      </div>
+
+      <div id="infoOverlay" class="infoOverlay">
+        <button class="overlayButton" onclick="showgoodToKnow()">
+          <img src="img_pollo_locco/icon/setting.png" alt="" />
+        </button>
+        <button class="overlayButton" onclick="toggleSound(this)">
+          <img src="img_pollo_locco/icon/sound_on.png" alt="" />
+        </button>
+        <button class="overlayButton" onclick="doSomething3()">Button 3</button>
       </div>
     </main>
   </body>

@@ -73,7 +73,6 @@ class Character extends MovableObject {
     "img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-20.png",
   ];
 
-  // currentImage = 0;
   world;
   walkingSound = new Audio("audio/walking-charactor.mp3");
   jumpSound = new Audio("audio/jump-sound.mp3");

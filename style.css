@@ -9,8 +9,12 @@ html {
 body {
   margin: 0;
   display: flex;
-  align-items: center;
+  justify-content: center;
   flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  overflow: hidden;
   background-image: url(./img_pollo_locco/img/background_reminiscent_of_0.jpg);
   background-repeat: no-repeat;
   background-position: center;
@@ -50,89 +54,81 @@ h1 {
   color: white;
   font: bold;
   font-size: 80px;
+  margin: 0;
 }
 .gameCenter {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: auto;
-  margin-bottom: auto;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  max-width: 720px;
+  max-height: 480px;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
 }
-.boxButton {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 10px;
-  gap: 80px;
-}
+
 #startButton {
   width: 85px;
   height: 50px;
   border-radius: 10px;
-  background-color: rgb(41 155 67);
-  cursor: pointer;
-  font-size: 30px;
-  position: absolute;
-  top: 35%;
-  bottom: 0;
-  font: bold;
+  background-color: rgb(41, 155, 67);
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
   display: flex;
   align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 35%;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  box-shadow: 0 4px 0 rgb(32, 122, 53), 0 5px 10px rgba(0, 0, 0, 0.2);
+  transition: all 0.1s ease;
   z-index: 1000;
   padding: 10px 20px;
-  font-size: 20px;
-  cursor: pointer;
+  user-select: none;
 }
+
+#startButton:active {
+  transform: translateX(4px);
+  box-shadow: 0 1px 0 rgb(32, 122, 53), 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
 #startButton:hover {
-  box-shadow: 0px 1px 17px 20px hsla(240, 7%, 62%);
+  background-color: rgb(47, 175, 76);
+}
+.boxButton {
+  position: absolute;
+  top: 20px;
+  z-index: 5;
 }
 .infoButton {
   cursor: pointer;
-  background-color: rgb(41 155 67);
+  background-color: rgb(41, 155, 67);
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 50px;
   width: 50px;
   border-radius: 50px;
-}
-.infoButton:hover {
-  box-shadow: 0px 1px 17px 20px hsla(240, 7%, 62%);
-}
-.infoButton img {
-  height: 200px;
-  width: 200px;
-}
-.soundButton {
-  cursor: pointer;
-  background-color: rgb(41 155 67);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 50px;
-  width: 50px;
-  border-radius: 50px;
-}
-.soundButton:hover {
-  box-shadow: 0px 1px 17px 20px hsla(240, 7%, 62%);
-}
-.soundButton img {
-  height: 200px;
-  width: 200px;
+  border: none;
+  outline: none;
+  box-shadow: 0 4px 0 rgb(32, 122, 53), 0 5px 10px rgba(0, 0, 0, 0.2);
+  transition: all 0.1s ease;
+  z-index: 1000;
+  user-select: none;
+  > img {
+    width: 100%;
+  }
 }
 
-.screenButton {
-  width: 160px;
-  height: 50px;
-  border-radius: 10px;
-  background-color: rgb(41 155 67);
-  cursor: pointer;
-  font-size: 30px;
-  /* border: none; */
-  box-shadow: 0px 0px 17px 7px #efb91fb3;
-  font-size: 30px;
-  font: bold;
+.infoButton:active {
+  transform: translateX(4px);
+  box-shadow: 0 1px 0 rgb(32, 122, 53), 0 2px 5px rgba(0, 0, 0, 0.2);
 }
+
 #startGame {
   background-image: url(img_pollo_locco/img/9_intro_outro_screens/start/startscreen_1.png);
   background-position: center;
@@ -169,4 +165,43 @@ h1 {
 
 .goodToKnowContent {
   text-align: center;
+}
+.infoOverlay {
+  position: absolute;
+  top: 70px; /* Unterhalb der Buttons */
+  right: -250px; /* Anfangs versteckt */
+  width: 200px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 999;
+  transition: right 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.infoOverlay.show {
+  right: 15px;
+}
+
+.overlayButton {
+  padding: 10px;
+  background-color: rgb(41, 155, 67);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: "spicy-rice", sans-serif;
+  transition: all 0.2s;
+}
+
+.overlayButton:hover {
+  background-color: rgb(47, 175, 76);
+  transform: translateY(-2px);
+}
+
+.overlayButton:active {
+  transform: translateY(1px);
 }

@@ -122,3 +122,22 @@ function closegoodToKnow() {
 function doNotClose(event) {
   event.stopPropagation();
 }
+function toggleInfoOverlay() {
+  const overlay = document.getElementById("infoOverlay");
+  overlay.classList.toggle("show");
+}
+
+function toggleSound(button) {
+  const img = button.querySelector("img");
+  const isSoundOn = img.dataset.state === "on";
+
+  if (isSoundOn) {
+    img.src = "img_pollo_locco/icon/sound_off.png";
+    img.dataset.state = "off";
+    // Hier Code für Sound ausschalten einfügen
+  } else {
+    img.src = "img_pollo_locco/icon/sound_on.png";
+    img.dataset.state = "on";
+    // Hier Code für Sound einschalten einfügen
+  }
+}
