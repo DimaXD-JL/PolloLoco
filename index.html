@@ -36,7 +36,11 @@
       <button id="startButton" onclick="startGame()">Start</button>
       <div id="gameOver" class="overlay d-none"></div>
       <div class="boxButton">
-        <button id="infoButton" class="infoButton" onclick="toggleInfoOverlay()">
+        <button
+          id="infoButton"
+          class="infoButton"
+          onclick="toggleInfoOverlay()"
+        >
           <img src="img_pollo_locco/icon/menu.png" alt="" />
         </button>
       </div>
@@ -52,16 +56,43 @@
         </button>
       </div>
       <div class="mobileButtonLeft">
-        <button  class="actionButton" ontouchstart="moveLeft()" ontouchend="stopMove()">
-          <img src="img_pollo_locco/icon/links.png" alt="" />
-          <button  class="actionButton" ontouchstart="moveLeft()" ontouchend="stopMove()">
-            <img src="img_pollo_locco/icon/rechts.png" alt="" />
+        <button
+          id="btnLeft"
+          class="actionButton"
+          ontouchstart="keyboard.LEFT = true"
+          ontouchend="keyboard.LEFT = false"
+        >
+          <img src="img_pollo_locco/icon/links.png" alt="Left Button" />
+        </button>
+
+        <button
+          id="btnRight"
+          class="actionButton"
+          ontouchstart="keyboard.RIGHT = true"
+          ontouchend="keyboard.RIGHT = false"
+        >
+          <img src="img_pollo_locco/icon/rechts.png" alt="Right Button" />
+        </button>
       </div>
+
       <div class="mobileButtonRight">
-        <button class="actionButton" ontouchstart="moveLeft()" ontouchend="stopMove()">
-          <img src="img_pollo_locco/icon/bottle.png" alt="" />
-          <button class="actionButton" ontouchstart="moveLeft()" ontouchend="stopMove()">
-            <img src="img_pollo_locco/icon/jump.png" alt="" />
+        <button
+          id="btnThrow"
+          class="actionButton"
+          ontouchstart="keyboard.F = true"
+          ontouchend="keyboard.F = false"
+        >
+          <img src="img_pollo_locco/icon/bottle.png" alt="Throw Button" />
+        </button>
+
+        <button
+          id="btnJump"
+          class="actionButton"
+          ontouchstart="keyboard.SPACE = true"
+          ontouchend="keyboard.SPACE = false"
+        >
+          <img src="img_pollo_locco/icon/jump.png" alt="Jump Button" />
+        </button>
       </div>
       <div id="goodToKnow" class="goodToKnow">
         <button class="close-btn" onclick="closegoodToKnow()">×</button>
@@ -101,7 +132,9 @@
           <h4>Dzmitry Stashkevich</h4>
           <p>Anna-Hausen Straße 16</p>
           <p>16816 Neuruppin</p>
-          <a href="mailto:kontakt@dzmitry-stashkevich.de">kontakt@dzmitry-stashkevich.de</a>
+          <a href="mailto:kontakt@dzmitry-stashkevich.de"
+            >kontakt@dzmitry-stashkevich.de</a
+          >
         </div>
       </div>
     </main>
