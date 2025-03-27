@@ -118,6 +118,15 @@ function closegoodToKnow() {
   let goodToKnow = document.getElementById("goodToKnow");
   goodToKnow.style.display = "none";
 }
+function showgoodImprint() {
+  let imprint = document.getElementById("imprint");
+  imprint.style.display = "block";
+}
+
+function closegoodImprint() {
+  let imprint = document.getElementById("imprint");
+  imprint.style.display = "none";
+}
 
 function doNotClose(event) {
   event.stopPropagation();

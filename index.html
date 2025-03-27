@@ -36,9 +36,9 @@
       <button id="startButton" onclick="startGame()">Start</button>
       <div id="gameOver" class="overlay d-none"></div>
       <div class="boxButton">
-        <div id="infoButton" class="infoButton" onclick="toggleInfoOverlay()">
+        <button id="infoButton" class="infoButton" onclick="toggleInfoOverlay()">
           <img src="img_pollo_locco/icon/menu.png" alt="" />
-        </div>
+        </button>
       </div>
       <div id="infoOverlay" class="infoOverlay">
         <button class="overlayButton" onclick="showgoodToKnow()">
@@ -47,11 +47,24 @@
         <button class="overlayButton" onclick="toggleSound(this)">
           <img src="img_pollo_locco/icon/sound_on.png" alt="" />
         </button>
-        <button class="overlayButton" onclick="doSomething3()">
+        <button class="overlayButton" onclick="showgoodImprint()">
           <img src="img_pollo_locco/icon/imprint.png" alt="" />
         </button>
       </div>
-      <div id="goodToKnow" class="goodToKnow" onclick="closegoodToKnow()">
+      <div class="mobileButtonLeft">
+        <button  class="actionButton" ontouchstart="moveLeft()" ontouchend="stopMove()">
+          <img src="img_pollo_locco/icon/links.png" alt="" />
+          <button  class="actionButton" ontouchstart="moveLeft()" ontouchend="stopMove()">
+            <img src="img_pollo_locco/icon/rechts.png" alt="" />
+      </div>
+      <div class="mobileButtonRight">
+        <button class="actionButton" ontouchstart="moveLeft()" ontouchend="stopMove()">
+          <img src="img_pollo_locco/icon/bottle.png" alt="" />
+          <button class="actionButton" ontouchstart="moveLeft()" ontouchend="stopMove()">
+            <img src="img_pollo_locco/icon/jump.png" alt="" />
+      </div>
+      <div id="goodToKnow" class="goodToKnow">
+        <button class="close-btn" onclick="closegoodToKnow()">×</button>
         <div class="goodToKnowContent">
           <h3>Willkommen bei El Pollo Loco</h3>
           <h4>Tastenerklärung:</h4>
@@ -81,15 +94,14 @@
           </p>
         </div>
       </div>
-      <div id="imprint" class="goodToKnow" onclick="closegoodToKnow()">
-        <div class="goodToKnowContent">
+      <div id="imprint" class="imprint">
+        <button class="close-btn" onclick="closegoodImprint()">×</button>
+        <div class="imprintContent">
           <h3>Impressum</h3>
           <h4>Dzmitry Stashkevich</h4>
-          <p>Anna-Hausen Straße 16 </p>
+          <p>Anna-Hausen Straße 16</p>
           <p>16816 Neuruppin</p>
-          <p>Springen mit: <b>W</b> oder <b>↑</b> oder <b>Leertaste</b></p>
-         
-          </p>
+          <a href="mailto:kontakt@dzmitry-stashkevich.de">kontakt@dzmitry-stashkevich.de</a>
         </div>
       </div>
     </main>
