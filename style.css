@@ -69,7 +69,8 @@ h1 {
   overflow: hidden;
 }
 
-#startButton {
+#startButton,
+#restartButton {
   width: 120px;
   height: 60px;
   border-radius: 12px;
@@ -81,27 +82,31 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: center;
-  position: absolute;
-  top: 35%;
   cursor: pointer;
   border: none;
   outline: none;
-  z-index: 1000;
+  z-index: 1;
 
   user-select: none;
   text-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
   letter-spacing: 1px;
 }
 
-#startButton:hover {
+#startButton,
+#restartButton :hover {
   background: linear-gradient(145deg, #ffa726 0%, #ff8c00 100%);
   transform: translateY(-3px);
+}
+#restartButton {
+  z-index: 5;
 }
 
 .boxButton {
   position: absolute;
   top: 20px;
-  z-index: 5;
+  z-index: 4;
+  display: flex;
+  gap: 20px;
 }
 .infoButton {
   cursor: pointer;
@@ -116,7 +121,7 @@ h1 {
   outline: none;
 
   transition: all 0.2s cubic-bezier(0.22, 1, 0.36, 1);
-  z-index: 1000;
+  z-index: 1001;
   position: relative;
   overflow: hidden;
 }
@@ -153,15 +158,32 @@ h1 {
   height: 480px;
   display: flex;
 }
-#gameOver {
-  background-image: url(img_pollo_locco/img/9_intro_outro_screens/game_over/game_over.png);
-  background-position: center;
-  background-size: cover;
-  position: absolute;
-  border-radius: 10px;
+.game-end-screen {
+  position: fixed;
   width: 720px;
-  height: 480px;
-  z-index: 500;
+  height: 500px;
+  background-size: cover;
+  background-position: center;
+  z-index: 4;
+  display: none;
+}
+
+#gameOver {
+  background-image: url("img_pollo_locco/img/9_intro_outro_screens/game_over/game_over.png");
+}
+
+#gameWon {
+  background-image: url("img_pollo_locco/img/9_intro_outro_screens/win/won_2.png");
+}
+
+.d-flex {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+}
+
+.d-none {
+  display: none !important;
 }
 .goodToKnow,
 .imprint {
@@ -302,6 +324,7 @@ h1 {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  z-index: 4;
 }
 
 .infoOverlay.show {

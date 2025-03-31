@@ -33,9 +33,12 @@
       <canvas id="canvas" width="720" height="480"> </canvas>
 
       <div id="startGame"></div>
-      <button id="startButton" onclick="startGame()">Start</button>
-      <div id="gameOver" class="overlay d-none"></div>
+      <div id="gameOver" class="d-none game-end-screen"></div>
+      <div id="gameWon" class="d-none game-end-screen"></div>
+    </div>
       <div class="boxButton">
+        <button id="startButton" onclick="startGame()">Start</button>
+        <button id="restartButton" class="d-none restart-btn">Neustart</button>
         <button
           id="infoButton"
           class="infoButton"

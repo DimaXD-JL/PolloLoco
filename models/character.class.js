@@ -142,29 +142,13 @@ class Character extends MovableObject {
       }
     }, 3000 / 60); // 60 FPS
   }
-
   characterisDead() {
-    this.playAnimation(this.IMAGES_DEAD); // Animation abspielen
-
+    this.playAnimation(this.IMAGES_DEAD);
     setTimeout(() => {
-      let gameOverElement = document.getElementById("gameOver");
-      let startButtonElement = document.getElementById("startButton");
-
-      if (gameOverElement) {
-        gameOverElement.classList.remove("d-none");
-        gameOverElement.classList.add("d-flex"); // Falls "d-flex" hinzugefügt werden soll
-      }
-
-      // Alle Intervalle sicher löschen
-      for (let i = 1; i < 9999; i++) window.clearInterval(i);
-
-      setTimeout(() => {
-        if (startButtonElement) {
-          startButtonElement.classList.remove("d-none");
-        }
-      }, 2000);
+      this.world.showGameEndScreen(false); // false für Game Over
     }, 1500);
   }
+
   // Timer zurücksetzen
   resetTimers() {
     if (this.idleTimer) {

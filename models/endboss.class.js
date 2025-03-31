@@ -3,6 +3,9 @@ class Endboss extends MovableObject {
   height = 350;
   width = 200;
   energy = 100;
+  hadFirstContact = false;
+  alertAnimationFinished = false;
+  isAttacking = false;
 
   offset = {
     x: 30,
@@ -48,7 +51,6 @@ class Endboss extends MovableObject {
     "img_pollo_locco/img/4_enemie_boss_chicken/5_dead/G26.png",
   ];
 
-  hadFirstContact = false;
   walkSound = new Audio("audio/chicken-soundscape-200111.mp3");
 
   constructor() {
@@ -56,54 +58,124 @@ class Endboss extends MovableObject {
     this.loadImages(this.IMAGES_ALERT);
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_ATTACK);
-    this.x = 2200; // auf welcher Position sich der Boss befindet
+    this.loadImages(this.IMAGES_HURT);
+    this.loadImages(this.IMAGES_DEAD);
+    this.x = 2200;
     this.animate();
   }
+
   animate() {
-    let i = 0;
-
+    // Haupt-Animation-Loop
     setInterval(() => {
-      if (i < 10 && this.hadFirstContact) {
-        this.playAnimation(this.IMAGES_ALERT); // Kurzes Warnen nach Kontakt
-      } else if (this.hadFirstContact) {
-        this.playAnimation(this.IMAGES_WALKING); // Laufanimation
+      if (this.isDead()) {
+        this.playDeathAnimation();
+        return;
       }
 
-      i++;
-      // Prüfen, ob der Charakter nahe genug ist
-      if (world.character.x > 1900 && !this.hadFirstContact) {
-        i = 0; // Zähler zurücksetzen
-        this.hadFirstContact = true; // Boss wurde aktiviert
+      if (!this.hadFirstContact) {
+        // Warte auf First Contact
+        if (world.character.x > 1800) {
+          this.hadFirstContact = true;
+          this.playSlowAlertAnimation();
+        }
+        return;
       }
-    }, 300);
 
-    setInterval(() => {
-      if (this.hadFirstContact) {
+      if (this.isHurt()) {
+        this.playAnimationOnce(this.IMAGES_HURT);
+      } else if (!this.alertAnimationFinished) {
+        // Warte bis Alert-Animation fertig ist
+        return;
+      } else {
+        // Normales Verhalten nach Alert
+        if (Math.random() > 0.5) {
+          this.playAnimationOnce(this.IMAGES_ATTACK);
+        } else {
+          this.playAnimationLoop(this.IMAGES_WALKING);
+        }
+      }
+    }, 200);
+
+    // Bewegung nach Alert
+    const movementInterval = setInterval(() => {
+      if (this.isDead()) {
+        clearInterval(movementInterval);
+        return;
+      }
+
+      if (this.hadFirstContact && this.alertAnimationFinished) {
         this.moveLeft();
-        this.walkSound.play();
-        this.walkSound.volume = 4;
+        if (this.walkSound.paused) {
+          this.walkSound.play();
+          this.walkSound.volume = 0.4;
+        }
       }
-    }, 100 / 60); // Bewegung mit 60 FPS
-
-    setInterval(() => {
-      if (this.hadFirstContact) this.playAnimation(this.IMAGES_WALKING);
-      this.playAnimation(this.IMAGES_ATTACK);
-    }, 4000);
+    }, 2500 / 60);
   }
 
-  // animate() {
-  //   setInterval(() => {
-  //     if (this.energy > 0) {
-  //       this.playAnimation(this.IMAGES_ALERT);
-  //     } else if (this.energy === 0) {
-  //       this.playAnimation(this.IMAGES_DEAD);
-  //     }
-  //   }, 280);
-  // }
+  playSlowAlertAnimation() {
+    this.alertAnimationStarted = true;
+    let currentFrame = 0;
+    const frames = this.IMAGES_ALERT.length;
+
+    const alertInterval = setInterval(() => {
+      this.img = this.imageCache[this.IMAGES_ALERT[currentFrame]];
+      currentFrame++;
+
+      if (currentFrame >= frames) {
+        clearInterval(alertInterval);
+        this.alertAnimationFinished = true;
+
+        // Walk Sound starten
+        this.walkSound.play();
+        this.walkSound.volume = 0.4;
+      }
+    }, 400);
+  }
+
+  playDeathAnimation() {
+    let currentFrame = 0;
+    const deathInterval = setInterval(() => {
+      this.img = this.imageCache[this.IMAGES_DEAD[currentFrame]];
+      currentFrame++;
+
+      if (currentFrame >= this.IMAGES_DEAD.length) {
+        clearInterval(deathInterval);
+        setTimeout(() => {
+          world.showGameEndScreen(false);
+        }, 1500);
+      }
+    }, 500); // Passt die Geschwindigkeit der Animation an
+  }
+
+  playAnimationOnce(images) {
+    let currentFrame = 0;
+    const interval = setInterval(() => {
+      this.img = this.imageCache[images[currentFrame]];
+      currentFrame++;
+
+      if (currentFrame >= images.length) {
+        clearInterval(interval);
+      }
+    }, 1000); // Anpassbare Frame-Zeit
+  }
+
+  playAnimationLoop(images) {
+    this.img = this.imageCache[images[this.currentImage % images.length]];
+    this.currentImage = (this.currentImage + 1) % images.length;
+  }
+
   hit() {
     this.energy -= 30;
-    if (this.energy < 0) {
-      this.energy = 0;
+    if (this.energy < 0) this.energy = 0;
+
+    if (world.statusBarBoss) {
+      world.statusBarBoss.setPercentage(this.energy);
     }
+    this.lastHit = Date.now();
   }
+
+  // isHurt() {
+  //   return this.lastHit && Date.now() - this.lastHit < 1000;
+  // }
 }

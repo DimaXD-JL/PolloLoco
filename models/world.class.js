@@ -61,30 +61,37 @@ class World {
 
   checkThrowableObjectCollisions() {
     // Prüfe Kollisionen zwischen geworfenen Objekten und Gegnern
-    this.throwableObjects.forEach((throwableObject) => {
-      this.level.enemies.forEach((enemy, index) => {
-        if (throwableObject.drawisColliding(enemy)) {
+    this.throwableObjects.forEach((throwableObject, throwableIndex) => {
+      this.level.enemies.forEach((enemy, enemyIndex) => {
+        if (
+          throwableObject.drawisColliding(enemy) &&
+          !throwableObject.hasSplashed
+        ) {
+          // Play splash animation
+          throwableObject.splash();
+
           // Gegner trifft, spezifisch für Chicken oder SmallChicken
           if (enemy instanceof Chicken || enemy instanceof SmallChicken) {
             enemy.hit(); // Gegner als getroffen markieren
-            this.level.enemies.splice(index, 1); // Entferne Chicken aus der Liste
+            setTimeout(() => {
+              this.level.enemies.splice(enemyIndex, 1); // Entferne Chicken aus der Liste
+            }, 100); // Small delay to allow splash animation to show
           } else if (enemy instanceof Endboss) {
             enemy.hit(); // Reduziere die Trefferpunkte des Endbosses
-            if (enemy.isDead()) {
-              // Überprüfe, ob der Endboss besiegt ist
-              this.level.enemies.splice(index, 1); // Entferne Endboss, wenn besiegt
-            }
           }
-          // Entferne das geworfene Objekt nach der Kollision
-          this.throwableObjects.splice(
-            this.throwableObjects.indexOf(throwableObject),
-            1
-          );
+
+          // Entferne das geworfene Objekt nach der Kollision (after animation completes)
+          setTimeout(() => {
+            if (this.throwableObjects.includes(throwableObject)) {
+              this.throwableObjects.splice(throwableIndex, 1);
+            }
+          }, 500); // Match this with the splash animation duration
         }
       });
     });
-  }
 
+    //
+  }
   checkEnemyCollisions() {
     // Kollision mit Gegnern
     this.level.enemies.forEach((enemy, index) => {
@@ -197,5 +204,44 @@ class World {
   flipImageBack(mo) {
     mo.x = mo.x * -1;
     this.ctx.restore();
+  }
+  gameWon() {
+    this.showGameEndScreen(true); // true für Gewinn-Screen
+  }
+
+  showGameEndScreen(isVictory) {
+    // 1. Alle Spiel-Intervalle stoppen
+    this.stopAllGameIntervals();
+
+    // 2. Canvas zeichnen anhalten
+    cancelAnimationFrame(this.animationFrame);
+
+    // 3. Overlay-Elemente holen
+    const gameOverElement = document.getElementById("gameOver");
+    const gameWonElement = document.getElementById("gameWon");
+    const restartButton = document.getElementById("restartButton");
+
+    // 4. Richtiges Overlay anzeigen
+    if (isVictory) {
+      gameWonElement?.classList.remove("d-none");
+      gameWonElement?.classList.add("d-flex");
+    } else {
+      gameOverElement?.classList.remove("d-none");
+      gameOverElement?.classList.add("d-flex");
+    }
+
+    // 5. Neustart-Button nach 2 Sekunden anzeigen
+    setTimeout(() => {
+      restartButton?.classList.remove("d-none");
+      restartButton.onclick = () => location.reload();
+    }, 2000);
+  }
+
+  stopAllGameIntervals() {
+    // Höchste Intervall-ID erhöhen für sichereres Stoppen
+    for (let i = 1; i < 999999; i++) {
+      clearInterval(i);
+      clearTimeout(i);
+    }
   }
 }
