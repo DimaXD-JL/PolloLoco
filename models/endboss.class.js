@@ -6,6 +6,7 @@ class Endboss extends MovableObject {
   hadFirstContact = false;
   alertAnimationFinished = false;
   isAttacking = false;
+  speed = 1;
 
   offset = {
     x: 30,
@@ -50,8 +51,6 @@ class Endboss extends MovableObject {
     "img_pollo_locco/img/4_enemie_boss_chicken/5_dead/G25.png",
     "img_pollo_locco/img/4_enemie_boss_chicken/5_dead/G26.png",
   ];
-
-  walkSound = new Audio("audio/chicken-soundscape-200111.mp3");
 
   constructor() {
     super().loadImage(this.IMAGES_ALERT[0]);
@@ -105,9 +104,9 @@ class Endboss extends MovableObject {
 
       if (this.hadFirstContact && this.alertAnimationFinished) {
         this.moveLeft();
-        if (this.walkSound.paused) {
-          this.walkSound.play();
-          this.walkSound.volume = 0.4;
+        if (sounds.walkSound.paused) {
+          sounds.walkSound.play();
+          sounds.walkSound.volume = 0.4;
         }
       }
     }, 2500 / 60);
@@ -127,8 +126,8 @@ class Endboss extends MovableObject {
         this.alertAnimationFinished = true;
 
         // Walk Sound starten
-        this.walkSound.play();
-        this.walkSound.volume = 0.4;
+        sounds.walkSound.play();
+        sounds.walkSound.volume = 0.4;
       }
     }, 400);
   }
@@ -142,7 +141,7 @@ class Endboss extends MovableObject {
       if (currentFrame >= this.IMAGES_DEAD.length) {
         clearInterval(deathInterval);
         setTimeout(() => {
-          world.showGameEndScreen(false);
+          world.showGameEndScreen(true);
         }, 1500);
       }
     }, 500); // Passt die Geschwindigkeit der Animation an

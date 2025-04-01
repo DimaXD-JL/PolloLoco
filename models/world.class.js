@@ -14,10 +14,6 @@ class World {
   coinCounter = 0;
   coins = [];
 
-  bottles_sound = new Audio("audio/bottles.mp3");
-  coin_sound = new Audio("audio/coin.mp3");
-  chicken_sound = new Audio("audio/chicken-hurt-Dead.mp3");
-
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
@@ -54,8 +50,8 @@ class World {
       this.throwableObjects.push(bottle);
       this.bottleCounter--; // Zähler für Flaschen reduzieren
       this.updateBottleStatusBar(); // Statusleiste aktualisiere
-      this.bottles_sound.play();
-      this.bottles_sound.volume = 0.4;
+      sounds.bottles_sound.play();
+      sounds.bottles_sound.volume = 0.4;
     }
   }
 
@@ -99,8 +95,8 @@ class World {
         if (this.character.isAboveGround() && !this.character.speedY <= 0) {
           if (enemy instanceof Chicken || enemy instanceof SmallChicken) {
             this.level.enemies.splice(index, 1);
-            this.chicken_sound.play();
-            this.chicken_sound.volume = 0.1;
+            sounds.chicken_sound.play();
+            sounds.chicken_sound.volume = 0.1;
           }
         } else {
           this.character.hit();
@@ -117,8 +113,8 @@ class World {
         this.coinCounter++; // Zähler erhöhen
         this.level.coins.splice(index, 1); // Coin aus Array entfernen
         this.updateCoinStatusBar(); // Statusleiste aktualisieren
-        this.coin_sound.play();
-        this.coin_sound.volume = 0.4;
+        sounds.coin_sound.play();
+        sounds.coin_sound.volume = 0.4;
       }
     });
   }
@@ -134,8 +130,8 @@ class World {
         this.bottleCounter++; // Zähler erhöhen
         this.level.bottles.splice(index, 1); // Flaschen aus Array entfernen
         this.updateBottleStatusBar(); // Statusleiste aktualisieren
-        this.bottles_sound.play();
-        this.bottles_sound.volume = 0.4;
+        sounds.bottles_sound.play();
+        sounds.bottles_sound.volume = 0.4;
       }
     });
   }
@@ -206,15 +202,24 @@ class World {
     this.ctx.restore();
   }
   gameWon() {
-    this.showGameEndScreen(true); // true für Gewinn-Screen
+    this.showGameEndScreen(true);
   }
-
   showGameEndScreen(isVictory) {
     // 1. Alle Spiel-Intervalle stoppen
     this.stopAllGameIntervals();
 
     // 2. Canvas zeichnen anhalten
     cancelAnimationFrame(this.animationFrame);
+    // Spiel Sieg-Sound ab
+    if (isVictory) {
+      sounds.winn_sound.play();
+      sounds.winn_sound.volume = 0.4;
+      game_sound.pause();
+    } else {
+      sounds.gameover_sound.play();
+      sounds.gameover_sound.volume = 0.4;
+      game_sound.pause();
+    }
 
     // 3. Overlay-Elemente holen
     const gameOverElement = document.getElementById("gameOver");

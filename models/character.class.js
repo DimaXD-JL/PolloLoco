@@ -74,9 +74,11 @@ class Character extends MovableObject {
   ];
 
   world;
-  walkingSound = new Audio("audio/walking-charactor.mp3");
-  jumpSound = new Audio("audio/jump-sound.mp3");
-  longIdleSound = new Audio("audio/longidle.mp3");
+  // walkingSound = new Audio("audio/walking-charactor.mp3");
+  // jumpSound = new Audio("audio/jump-sound.mp3");
+  // longIdleSound = new Audio("audio/longidle.mp3");
+  // hurtSound = new Audio("audio/hurt.mp3");
+  // deadSound = new Audio("audio/dead.mp3");
 
   constructor() {
     // sobald der Character erstellt wird soll er folgendes ausführen!!
@@ -94,21 +96,21 @@ class Character extends MovableObject {
 
   animate() {
     setInterval(() => {
-      this.walkingSound.pause();
+      sounds.walkingSound.pause();
       // Bewegung nach rechts
       if (this.world.keyboard.RIGHT && this.x < 2200) {
         this.moveRight();
         this.otherDirection = false;
-        this.walkingSound.play();
-        this.walkingSound.volume = 0.4;
+        sounds.walkingSound.play();
+        sounds.walkingSound.volume = 0.4;
         this.resetTimers(); // Timer zurücksetzen
       }
 
       // Bewegung nach links
       if (this.world.keyboard.LEFT && this.x > -100) {
         this.moveLeft();
-        this.walkingSound.play();
-        this.walkingSound.volume = 0.4;
+        sounds.walkingSound.play();
+        sounds.walkingSound.volume = 0.4;
         this.otherDirection = true;
         this.resetTimers();
       }
@@ -120,7 +122,7 @@ class Character extends MovableObject {
       ) {
         this.jump();
         this.resetTimers();
-        this.jumpSound.play();
+        sounds.jumpSound.play();
       }
 
       // Kamera-Position aktualisieren
@@ -131,8 +133,12 @@ class Character extends MovableObject {
     setInterval(() => {
       if (this.isDead()) {
         this.characterisDead();
+        sounds.deadSoundSound.play();
+        sounds.deadSound.volume = 0.4;
       } else if (this.isHurt()) {
         this.playAnimation(this.IMAGES_HURT);
+        sounds.hurtSound.play();
+        sounds.hurtSound.volume = 0.4;
       } else if (this.isAboveGround()) {
         this.playAnimation(this.IMAGES_JUMPING);
       } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
@@ -158,7 +164,7 @@ class Character extends MovableObject {
     if (this.longIdleTimer) {
       clearTimeout(this.longIdleTimer);
       this.longIdleTimer = null;
-      this.longIdleSound.pause();
+      sounds.longIdleSound.pause();
     }
   }
 
@@ -171,8 +177,8 @@ class Character extends MovableObject {
         if (!this.longIdleTimer) {
           this.longIdleTimer = setTimeout(() => {
             this.playAnimation(this.IMAGES_LONGIDLE);
-            this.longIdleSound.play();
-            this.longIdleSound.volume = 0.1;
+            sounds.longIdleSound.play();
+            sounds.longIdleSound.volume = 0.1;
           }, 3000); // Nach weiteren 3 Sekunden
         }
       }, 2000); // Nach 2 Sekunden Inaktivität

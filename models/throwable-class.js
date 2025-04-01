@@ -26,8 +26,6 @@ class ThrowableObject extends MovableObject {
     "img_pollo_locco/img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png",
   ];
 
-  throw_sound = new Audio("audio/jump-sound.mp3");
-
   constructor(x, y) {
     super().loadImage(
       "img_pollo_locco/img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png"
@@ -53,7 +51,9 @@ class ThrowableObject extends MovableObject {
   splash() {
     this.hasSplashed = true;
     this.playAnimation(this.IMAGES_SPLASH);
-    // After animation completes, the object should be removed
+    sounds.break_sound.play();
+    sounds.break_sound.volume = 0.4;
+
     setTimeout(() => {
       this.markedForDeletion = true;
     }, 500); // Adjust time based on your animation duration

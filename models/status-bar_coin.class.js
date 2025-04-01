@@ -8,8 +8,6 @@ class StatusCoin extends DrawbleObject {
     "img_pollo_locco/img/7_statusbars/1_statusbar/1_statusbar_coin/green/100.png",
   ];
 
-  //  percentage = 0;
-
   constructor() {
     super();
     this.loadImages(this.IMAGES_COIN);
