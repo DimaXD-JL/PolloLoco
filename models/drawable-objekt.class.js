@@ -1,3 +1,8 @@
+/**
+ * Base class for all drawable objects in the game.
+ * Provides core functionality for loading, caching, and rendering images,
+ * as well as debug drawing for collision boxes.
+ */
 class DrawbleObject {
   x = 120;
   y = 310;
@@ -7,26 +12,43 @@ class DrawbleObject {
   height = 150;
   width = 100;
 
+  /**
+   * Loads a single image from the specified path.
+   * @param {string} path - The file path to the image resource.
+   */
   loadImage(path) {
-    this.img = new Image(); //this.img = document.getElementById('image') <img= id"image">
+    this.img = new Image();
     this.img.src = path;
   }
 
+  /**
+   * Draws the object's current image to the canvas context.
+   * @param {CanvasRenderingContext2D} ctx - The rendering context to draw onto.
+   */
   draw(ctx) {
-    // und hier wird alles wieder rückgengig gemacht
     ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
   }
 
+  /**
+   * Draws a debug frame around the object's main bounding box (for development).
+   * Currently only draws for Chicken and SmallChicken instances.
+   * @param {CanvasRenderingContext2D} ctx - The rendering context to draw onto.
+   */
   drawFrame(ctx) {
     if (this instanceof Chicken || this instanceof SmallChicken) {
       ctx.beginPath();
       ctx.lineWidth = "5";
       ctx.strokeStyle = "blue";
       ctx.rect(this.x, this.y, this.width, this.height);
-      // ctx.stroke();
+      // ctx.stroke(); // Uncomment to enable debug drawing
     }
   }
 
+  /**
+   * Draws a debug frame around the object's offset collision box (for development).
+   * Draws for Character, Coin, Bottle, Chicken, SmallChicken, and Endboss instances.
+   * @param {CanvasRenderingContext2D} ctx - The rendering context to draw onto.
+   */
   drawOffsetFrame(ctx) {
     if (
       this instanceof Character ||
@@ -45,19 +67,18 @@ class DrawbleObject {
         this.width - this.offset.width,
         this.height - this.offset.height
       );
-      // ctx.stroke();
+      // ctx.stroke(); // Uncomment to enable debug drawing
     }
   }
+
   /**
-   *
-   * @param {Array} arr - ['img/image1.png,'img/image2.png....]
-   * Der Kommentar hilft Entwicklern zu verstehen, welche Art von Daten die Funktion erwartet.
+   * Preloads multiple images and stores them in the image cache.
+   * @param {string[]} arr - Array of image paths to load.
    */
   loadImages(arr) {
     arr.forEach((path) => {
       let img = new Image();
       img.src = path;
-      // img.style = 'transform: scaleX(-1)';
       this.imageCache[path] = img;
     });
   }

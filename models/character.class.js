@@ -1,9 +1,26 @@
+/**
+ * Represents the main character in the game, extending the MovableObject class.
+ * Handles character movement, animations, and interactions with the game world.
+ *
+ * @extends MovableObject
+ */
 class Character extends MovableObject {
-  // extends MovableObject Vererbung von !MovableObject!
+  /** @type {number} The y-coordinate position of the character on the canvas. */
   y = 80;
+
+  /** @type {number} The height of the character in pixels. */
   height = 250;
+
+  /** @type {number} The movement speed of the character. */
   speed = 10;
 
+  /**
+   * @type {Object} The collision offset values for the character.
+   * @property {number} x - Horizontal offset.
+   * @property {number} y - Vertical offset.
+   * @property {number} width - Width adjustment for collision box.
+   * @property {number} height - Height adjustment for collision box.
+   */
   offset = {
     x: 30,
     y: 120,
@@ -11,7 +28,10 @@ class Character extends MovableObject {
     height: 150,
   };
 
-  idleTimer; // Timer
+  /** @type {number|null} Timer for idle animation. */
+  idleTimer;
+
+  /** @type {number|null} Timer for long idle animation. */
   longIdleTimer;
 
   IMAGES_WALKING = [
@@ -73,8 +93,13 @@ class Character extends MovableObject {
     "img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-20.png",
   ];
 
+  /** @type {World} Reference to the game world the character belongs to. */
   world;
 
+  /**
+   * Creates a new Character instance.
+   * Loads all animations, applies gravity, and starts the animation loops.
+   */
   constructor() {
     super().loadImage("img_pollo_locco/img/2_character_pepe/2_walk/W-21.png");
     this.loadImages(this.IMAGES_WALKING);
@@ -88,11 +113,18 @@ class Character extends MovableObject {
     this.isDead();
   }
 
+  /**
+   * Sets up the animation intervals for movement and character states.
+   */
   animate() {
     setInterval(() => this.moveCharacter(), 2500 / 60);
-
     setInterval(() => this.playCharacter(), 3000 / 60);
   }
+
+  /**
+   * Handles character movement based on keyboard input.
+   * Manages walking sounds and camera movement.
+   */
   moveCharacter() {
     sounds.walkingSound.pause();
     if (this.canMoveRight()) this.moveRight();
@@ -105,10 +137,19 @@ class Character extends MovableObject {
 
     this.world.camera_x = -this.x + 100;
   }
+
+  /**
+   * Checks if the character can move right.
+   * @returns {boolean} True if RIGHT key is pressed and character is within right boundary.
+   */
   canMoveRight() {
     return this.world.keyboard.RIGHT && this.x < 2200;
   }
 
+  /**
+   * Moves the character to the right.
+   * Plays walking sound and resets idle timers.
+   */
   moveRight() {
     super.moveRight();
     this.otherDirection = false;
@@ -117,10 +158,18 @@ class Character extends MovableObject {
     this.resetTimers();
   }
 
+  /**
+   * Checks if the character can move left.
+   * @returns {boolean} True if LEFT key is pressed and character is within left boundary.
+   */
   canMoveLeft() {
     return this.world.keyboard.LEFT && this.x > -100;
   }
 
+  /**
+   * Moves the character to the left.
+   * Plays walking sound and resets idle timers.
+   */
   moveLeft() {
     super.moveLeft();
     sounds.walkingSound.play();
@@ -129,6 +178,10 @@ class Character extends MovableObject {
     this.resetTimers();
   }
 
+  /**
+   * Checks if the character can jump.
+   * @returns {boolean} True if SPACE or UP key is pressed and character is on ground.
+   */
   canJump() {
     return (
       (this.world.keyboard.SPACE || this.world.keyboard.UP) &&
@@ -136,6 +189,9 @@ class Character extends MovableObject {
     );
   }
 
+  /**
+   * Determines and plays the appropriate character animation based on state.
+   */
   playCharacter() {
     if (this.canPlayDeath()) this.playDeath();
     else if (this.canPlayHurt()) this.playHurt();
@@ -144,53 +200,91 @@ class Character extends MovableObject {
     else this.playIdle();
   }
 
+  /**
+   * Checks if death animation should play.
+   * @returns {boolean} True if character is dead.
+   */
   canPlayDeath() {
     return this.isDead();
   }
 
+  /**
+   * Checks if hurt animation should play.
+   * @returns {boolean} True if character is hurt.
+   */
   canPlayHurt() {
     return this.isHurt();
   }
 
+  /**
+   * Checks if jump animation should play.
+   * @returns {boolean} True if character is above ground.
+   */
   canPlayJump() {
     return this.isAboveGround();
   }
 
+  /**
+   * Checks if walk animation should play.
+   * @returns {boolean} True if LEFT or RIGHT key is pressed.
+   */
   canPlayWalk() {
     return this.world.keyboard.RIGHT || this.world.keyboard.LEFT;
   }
 
+  /**
+   * Plays the death animation and triggers game over screen.
+   */
   playDeath() {
     this.characterisDead();
     sounds.deadSound.play();
     sounds.deadSound.volume = 0.4;
   }
 
+  /**
+   * Plays the hurt animation and sound.
+   */
   playHurt() {
     this.playAnimation(this.IMAGES_HURT);
     sounds.hurtSound.play();
     sounds.hurtSound.volume = 0.4;
   }
 
+  /**
+   * Plays the jump animation.
+   */
   playJump() {
     this.playAnimation(this.IMAGES_JUMPING);
   }
 
+  /**
+   * Plays the walk animation.
+   */
   playWalk() {
     this.playAnimation(this.IMAGES_WALKING);
   }
 
+  /**
+   * Starts the idle animation sequence.
+   */
   playIdle() {
     this.startIdleTimers();
   }
 
+  /**
+   * Handles character death sequence.
+   * Shows game over screen after animation completes.
+   */
   characterisDead() {
     this.playAnimation(this.IMAGES_DEAD);
     setTimeout(() => {
-      this.world.showGameEndScreen(false); // false für Game Over
+      this.world.showGameEndScreen(false); // false for Game Over
     }, 1500);
   }
 
+  /**
+   * Resets the idle timers when character moves.
+   */
   resetTimers() {
     if (this.idleTimer) {
       clearTimeout(this.idleTimer);
@@ -203,6 +297,10 @@ class Character extends MovableObject {
     }
   }
 
+  /**
+   * Starts timers for idle and long idle animations.
+   * Plays appropriate sounds for long idle state.
+   */
   startIdleTimers() {
     if (!this.idleTimer) {
       this.idleTimer = setTimeout(() => {
@@ -213,9 +311,9 @@ class Character extends MovableObject {
             this.playAnimation(this.IMAGES_LONGIDLE);
             sounds.longIdleSound.play();
             sounds.longIdleSound.volume = 0.1;
-          }, 3000); // Nach weiteren 3 Sekunden
+          }, 3000); // After additional 3 seconds
         }
-      }, 2000); // Nach 2 Sekunden Inaktivität
+      }, 2000); // After 2 seconds of inactivity
     }
   }
 }
