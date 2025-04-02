@@ -30,14 +30,17 @@
     <script src="./script/game.js"></script>
   </head>
   <body>
+    
     <h1>El Pollo Loco</h1>
+    <div id="fullscreen">
     <main class="gameCenter">
+      
       <canvas id="canvas" width="720" height="480"> </canvas>
 
       <div id="startGame"></div>
       <div id="gameOver" class="d-none game-end-screen"></div>
       <div id="gameWon" class="d-none game-end-screen"></div>
-    </div>
+   
       <div class="boxButton">
         <button id="startButton" onclick="startGame()">Start</button>
         <button id="restartButton" class="d-none restart-btn">Neustart</button>
@@ -51,13 +54,16 @@
       </div>
       <div id="infoOverlay" class="infoOverlay">
         <button class="overlayButton" onclick="showgoodToKnow()">
-          <img src="img_pollo_locco/icon/setting.png" alt="" />
+          <img src="img_pollo_locco/icon/setting.png" alt="setting" />
         </button>
         <button class="overlayButton" onclick="toggleSound(this)">
-          <img src="img_pollo_locco/icon/sound_on.png" alt="" />
+          <img src="img_pollo_locco/icon/sound_on.png" alt="sound_on_off" />
         </button>
         <button class="overlayButton" onclick="showgoodImprint()">
-          <img src="img_pollo_locco/icon/imprint.png" alt="" />
+          <img src="img_pollo_locco/icon/imprint.png" alt="imprint" />
+        </button>
+        <button class="overlayButton" onclick="toggleFullscreen()">
+          <img src="img_pollo_locco/icon/fullscreen.png" alt="fullscreen" />
         </button>
       </div>
       <div class="mobileButtonLeft">
@@ -79,7 +85,7 @@
           <img src="img_pollo_locco/icon/rechts.png" alt="Right Button" />
         </button>
       </div>
-      <div id="rotateOverlay">Bitte drehen Sie Ihren Bildschirm</div>
+
       <div class="mobileButtonRight">
         <button
           id="btnThrow"
@@ -99,6 +105,8 @@
           <img src="img_pollo_locco/icon/jump.png" alt="Jump Button" />
         </button>
       </div>
+    </div>
+      <div id="rotateOverlay">Bitte drehen Sie Ihren Bildschirm</div>
       <div id="goodToKnow" class="goodToKnow">
         <button class="close-btn" onclick="closegoodToKnow()">×</button>
         <div class="goodToKnowContent">

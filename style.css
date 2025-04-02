@@ -76,7 +76,13 @@ h1 {
     font-size: 1.5em;
     z-index: 9999;
   }
-  
+  #fullscreen{
+    position: relative;
+    display: flex
+;
+    justify-content: center;
+    align-items: center;
+  }
 
    
 
