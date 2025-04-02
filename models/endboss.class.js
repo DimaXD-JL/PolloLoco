@@ -127,7 +127,7 @@ class Endboss extends MovableObject {
 
         // Walk Sound starten
         sounds.walkSound.play();
-        sounds.walkSound.volume = 0.4;
+        sounds.walkSound.volume = 1;
       }
     }, 400);
   }
@@ -141,10 +141,11 @@ class Endboss extends MovableObject {
       if (currentFrame >= this.IMAGES_DEAD.length) {
         clearInterval(deathInterval);
         setTimeout(() => {
+          sounds.walkSound.pause();
           world.showGameEndScreen(true);
-        }, 1500);
+        }, 1000);
       }
-    }, 500); // Passt die Geschwindigkeit der Animation an
+    }, 500);
   }
 
   playAnimationOnce(images) {

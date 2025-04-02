@@ -21,7 +21,7 @@ function startGame() {
   hideElements(["gameOver", "startButton", "startGame"]);
   initLevel1();
   world = new World(document.getElementById("canvas"), keyboard);
-  game_sound.volume = 0.1;
+  game_sound.volume = 0.04;
   game_sound.play();
 }
 

@@ -1,0 +1,50 @@
+@media only screen and (max-width: 720px) {
+  canvas {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-height: 480px) {
+  canvas {
+    height: 100vh;
+  }
+}
+
+@media (orientation: landscape) and (max-width: 1200px) {
+  h1 {
+    display: none !important;
+  }
+}
+
+@media (orientation: portrait) and (max-width: 1200px) {
+  #rotateOverlay {
+    display: flex;
+  }
+}
+
+@media (orientation: landscape) {
+  #rotateOverlay {
+    display: none !important;
+  }
+}
+
+@media (orientation: landscape) and (max-width: 1370px),
+  (orientation: landscape) and (max-height: 480px) {
+  .mobileButtonLeft,
+  .mobileButtonRight {
+    display: flex;
+  }
+}
+
+@media (orientation: landscape) and (max-width: 844px) {
+  #startGame {
+    width: 100%;
+    height: 100%;
+    border-radius: 0px;
+  }
+  .infoOverlay {
+    top: 100px;
+    right: -250px;
+    width: 45px;
+  }
+}
