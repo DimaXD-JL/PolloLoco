@@ -618,8 +618,13 @@ class World {
   showRestartButton() {
     setTimeout(() => {
       const button = document.getElementById("restartButton");
-      button?.classList.remove("d-none");
-      button.onclick = () => location.reload();
+      if (button) {
+        button.classList.remove("d-none");
+        button.onclick = () => {
+          localStorage.setItem("forceSoundInit", "true");
+          location.reload();
+        };
+      }
     }, 2000);
   }
   /**

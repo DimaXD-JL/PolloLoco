@@ -48,6 +48,73 @@ let sounds = {
 };
 
 /**
+ * Mutes or unmutes all game sounds
+ * @function
+ * @param {boolean} mute - Whether to mute (true) or unmute (false) all sounds
+ */
+function muteAllSounds(mute) {
+  Object.values(sounds).forEach((sound) => {
+    sound.muted = mute;
+  });
+  game_sound.muted = mute;
+}
+
+/**
+ * Initializes the sound state based on saved preference in localStorage
+ * @function
+ */
+function initSoundState() {
+  setTimeout(() => {
+    const soundButton = document.getElementById("soundButton");
+    if (!soundButton) {
+      console.error("SoundButton nicht gefunden!");
+      return;
+    }
+
+    const img = soundButton.querySelector("img");
+    if (!img) {
+      console.error("SoundButton hat kein img-Element!");
+      return;
+    }
+
+    const isMuted = localStorage.getItem("soundMuted") === "true";
+
+    if (isMuted) {
+      img.src = "img_pollo_locco/icon/sound_off.png";
+      img.dataset.state = "off";
+    } else {
+      img.src = "img_pollo_locco/icon/sound_on.png";
+      img.dataset.state = "on";
+    }
+
+    muteAllSounds(isMuted);
+    console.log("Sound initialisiert:", isMuted ? "stumm" : "an");
+  }, 100);
+}
+
+/**
+ * Toggles game sound on/off and updates button icon
+ * @function
+ * @param {HTMLElement} button - The sound toggle button element
+ */
+function toggleSound(button) {
+  const img = button.querySelector("img");
+  const isSoundOn = img.dataset.state === "on";
+
+  if (isSoundOn) {
+    img.src = "img_pollo_locco/icon/sound_off.png";
+    img.dataset.state = "off";
+    muteAllSounds(true);
+    localStorage.setItem("soundMuted", "true");
+  } else {
+    img.src = "img_pollo_locco/icon/sound_on.png";
+    img.dataset.state = "on";
+    muteAllSounds(false);
+    localStorage.setItem("soundMuted", "false");
+  }
+}
+
+/**
  * Initializes and starts the game
  * @function
  */
@@ -60,7 +127,8 @@ function startGame() {
 }
 
 /**
- * Hides multiple HTML elements by their IDs
+ * Hides multiple elements by their IDs
+ * @function
  * @param {string[]} ids - Array of element IDs to hide
  */
 function hideElements(ids) {
@@ -72,6 +140,7 @@ function hideElements(ids) {
 
 /**
  * Shows the game information overlay
+ * @function
  */
 function showgoodToKnow() {
   let goodToKnow = document.getElementById("goodToKnow");
@@ -80,6 +149,7 @@ function showgoodToKnow() {
 
 /**
  * Hides the game information overlay
+ * @function
  */
 function closegoodToKnow() {
   let goodToKnow = document.getElementById("goodToKnow");
@@ -88,6 +158,7 @@ function closegoodToKnow() {
 
 /**
  * Shows the imprint/legal information overlay
+ * @function
  */
 function showgoodImprint() {
   let imprint = document.getElementById("imprint");
@@ -96,6 +167,7 @@ function showgoodImprint() {
 
 /**
  * Hides the imprint/legal information overlay
+ * @function
  */
 function closegoodImprint() {
   let imprint = document.getElementById("imprint");
@@ -104,74 +176,12 @@ function closegoodImprint() {
 
 /**
  * Toggles the display of game information overlay
+ * @function
  */
 function toggleInfoOverlay() {
   const overlay = document.getElementById("infoOverlay");
   overlay.classList.toggle("show");
 }
 
-/**
- * Toggles game sound on/off and updates button icon
- * @param {HTMLElement} button - The sound toggle button element
- */
-function toggleSound(button) {
-  const img = button.querySelector("img");
-  const isSoundOn = img.dataset.state === "on";
-
-  if (isSoundOn) {
-    img.src = "img_pollo_locco/icon/sound_off.png";
-    img.dataset.state = "off";
-    // Mute all sounds
-    Object.values(sounds).forEach((sound) => {
-      sound.muted = true;
-    });
-    game_sound.muted = true;
-  } else {
-    img.src = "img_pollo_locco/icon/sound_on.png";
-    img.dataset.state = "on";
-    // Unmute all sounds
-    Object.values(sounds).forEach((sound) => {
-      sound.muted = false;
-    });
-    game_sound.muted = false;
-  }
-}
-
-function toggleFullscreen() {
-  // Prüfen ob wir bereits im Fullscreen-Modus sind
-  if (
-    !document.fullscreenElement && // Standard
-    !document.webkitFullscreenElement && // Safari/Chrome
-    !document.msFullscreenElement
-  ) {
-    // IE11
-    // Fullscreen aktivieren
-    let fullscreenElement = document.getElementById("fullscreen");
-    enterFullscreen(fullscreenElement);
-  } else {
-    // Fullscreen deaktivieren
-    exitFullscreen();
-  }
-}
-
-function enterFullscreen(element) {
-  if (element.requestFullscreen) {
-    element.requestFullscreen();
-  } else if (element.msRequestFullscreen) {
-    // for IE11
-    element.msRequestFullscreen();
-  } else if (element.webkitRequestFullscreen) {
-    // iOS Safari
-    element.webkitRequestFullscreen();
-  }
-}
-
-function exitFullscreen() {
-  if (document.exitFullscreen) {
-    document.exitFullscreen();
-  } else if (document.webkitExitFullscreen) {
-    document.webkitExitFullscreen();
-  } else if (document.msExitFullscreen) {
-    document.msExitFullscreen();
-  }
-}
+// Initialize sound state when DOM is loaded
+window.addEventListener("DOMContentLoaded", initSoundState);
