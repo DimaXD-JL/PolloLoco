@@ -6,7 +6,7 @@ class Endboss extends MovableObject {
   hadFirstContact = false;
   alertAnimationFinished = false;
   isAttacking = false;
-  speed = 1;
+  speed = 2;
 
   offset = {
     x: 30,
@@ -81,7 +81,7 @@ class Endboss extends MovableObject {
    */
   setupAnimationIntervals() {
     setInterval(() => this.updateEndbossState(), 200);
-    setInterval(() => this.handleMovement(), 2500 / 60);
+    setInterval(() => this.handleMovement(), 2000 / 60);
   }
 
   /**
@@ -187,7 +187,7 @@ class Endboss extends MovableObject {
       if (currentFrame >= frames) {
         this.finishAlertAnimation(alertInterval);
       }
-    }, 400);
+    }, 200);
   }
 
   /**
@@ -259,7 +259,7 @@ class Endboss extends MovableObject {
       if (currentFrame >= images.length) {
         clearInterval(interval);
       }
-    }, 1000);
+    }, 1500);
   }
 
   /**

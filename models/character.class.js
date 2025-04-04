@@ -143,7 +143,13 @@ class Character extends MovableObject {
    * @returns {boolean} True if RIGHT key is pressed and character is within right boundary.
    */
   canMoveRight() {
-    return this.world.keyboard.RIGHT && this.x < 2200;
+    const boss = this.world.level.enemies.find((e) => e instanceof Endboss);
+    if (!boss) {
+      return this.world.keyboard.RIGHT && this.x < 2400;
+    }
+
+    const bossMidPoint = boss.x + boss.width / 2;
+    return this.world.keyboard.RIGHT && this.x < bossMidPoint;
   }
 
   /**
@@ -151,13 +157,22 @@ class Character extends MovableObject {
    * Plays walking sound and resets idle timers.
    */
   moveRight() {
+    const boss = this.world.level.enemies.find((e) => e instanceof Endboss);
+
+    // Stoppt in der Mitte des Bosses
+    if (boss) {
+      const bossMidPoint = boss.x + boss.width / 2;
+      if (this.x >= bossMidPoint - this.width / 2) {
+        this.x = bossMidPoint - this.width / 2;
+        return;
+      }
+    }
     super.moveRight();
     this.otherDirection = false;
     sounds.walkingSound.play();
     sounds.walkingSound.volume = 0.4;
     this.resetTimers();
   }
-
   /**
    * Checks if the character can move left.
    * @returns {boolean} True if LEFT key is pressed and character is within left boundary.
@@ -302,18 +317,19 @@ class Character extends MovableObject {
    * Plays appropriate sounds for long idle state.
    */
   startIdleTimers() {
-    if (!this.idleTimer) {
+    // Nur starten wenn keine Timer aktiv sind
+    if (!this.idleTimer && !this.longIdleTimer) {
       this.idleTimer = setTimeout(() => {
+        // Erst normale Idle-Animation abspielen
         this.playAnimation(this.IMAGES_IDLE);
 
-        if (!this.longIdleTimer) {
-          this.longIdleTimer = setTimeout(() => {
-            this.playAnimation(this.IMAGES_LONGIDLE);
-            sounds.longIdleSound.play();
-            sounds.longIdleSound.volume = 0.1;
-          }, 3000); // After additional 3 seconds
-        }
-      }, 2000); // After 2 seconds of inactivity
+        // Nach der normalen Idle-Zeit die LongIdle-Animation starten
+        this.longIdleTimer = setTimeout(() => {
+          this.playAnimation(this.IMAGES_LONGIDLE);
+          sounds.longIdleSound.play();
+          sounds.longIdleSound.volume = 0.1;
+        }, 2500); // 3 Sekunden nach der normalen Idle-Animation
+      }, 1500); // 2 Sekunden Inaktivität bis zur normalen Idle-Animation
     }
   }
 }

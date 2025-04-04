@@ -44,6 +44,16 @@ class World {
 
   /** @type {Array<Coin>} Collected coins */
   coins = [];
+  /**
+   * Timestamp of last bottle throw
+   * @type {number}
+   */
+  lastThrowTime = 0;
+  /**
+   * Cooldown between throws in milliseconds
+   * @type {number}
+   */
+  THROW_COOLDOWN = 800; // 0.8 seconds
 
   /**
    * Creates a new World instance
@@ -87,15 +97,18 @@ class World {
   checkThrowObject() {
     if (this.canThrowBottle()) {
       this.throwBottle();
+      this.lastThrowTime = Date.now(); // Update last throw time
     }
   }
 
   /**
    * Determines if bottle can be thrown
-   * @returns {boolean} True if throw key pressed and bottles available
+   * @returns {boolean} True if conditions met and cooldown expired
    */
   canThrowBottle() {
-    return this.keyboard.F && this.bottleCounter > 0;
+    const isCooldownOver =
+      Date.now() - this.lastThrowTime > this.THROW_COOLDOWN;
+    return this.keyboard.F && this.bottleCounter > 0 && isCooldownOver;
   }
 
   /**
